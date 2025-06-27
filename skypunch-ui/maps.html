@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitfinder Maps</title>
+  <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="maps.css">
+  <style>
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      /* Header adjustments for mobile */
+      .header-panel {
+        padding: 12px 16px;
+      }
+      
+      .header-panel .header-inner {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+      
+      .logo {
+        margin-left: 0 !important;
+        margin-right: 0;
+        text-align: center;
+      }
+      
+      .main-nav ul {
+        font-size: 14px;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .main-nav a {
+        padding: 6px 8px;
+        font-size: 13px;
+      }
+      
+      .header-right {
+        justify-content: center;
+        margin-left: 0;
+      }
+      
+      .user-info {
+        gap: 8px;
+      }
+      
+      .user-text {
+        text-align: center;
+      }
+      
+      .username {
+        font-size: 13px;
+      }
+      
+      .user-id {
+        font-size: 11px;
+      }
+      
+      .avatar {
+        width: 32px;
+        height: 32px;
+      }
+      
+      /* Right panel mobile adjustments */
+      #right-panel {
+        position: fixed !important;
+        right: 16px !important;
+        left: 16px !important;
+        top: auto !important;
+        bottom: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        z-index: 1000 !important;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4,0.2,0.2,1), opacity 0.3s;
+        border-radius: 20px !important;
+        padding: 20px 16px 16px 16px !important;
+        display: none;
+      }
+      
+      #right-panel.mobile-visible {
+        transform: translateY(0);
+        display: block;
+      }
+      
+      /* Footer adjustments for mobile */
+      .footer-section.custom-footer {
+        padding: 8px 0 8px 0;
+        gap: 12px;
+      }
+      
+      .system-info {
+        font-size: 11px;
+        margin-bottom: 8px;
+      }
+      
+      .system-info > div:first-child {
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      
+      .footer-pill {
+        padding: 8px 12px;
+        font-size: 12px;
+        gap: 6px;
+      }
+      
+      .footer-icon {
+        width: 16px;
+        height: 16px;
+      }
+      
+      /* Footer toggle button mobile adjustments */
+      #footer-toggle-btn {
+        left: 16px !important;
+        bottom: 16px !important;
+        min-width: 80px;
+        height: 36px;
+        font-size: 11px;
+        padding: 0 12px;
+      }
+      
+      /* Map container mobile adjustments */
+      .full-width-map {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+      }
+      
+      #stadia-map {
+        height: 100%;
+        width: 100%;
+      }
+      
+      /* Custom zoom controls mobile adjustments */
+      #custom-zoom-controls {
+        position: fixed;
+        left: 16px;
+        bottom: 80px;
+        z-index: 30;
+      }
+      
+      #custom-zoom-controls .leaflet-control-zoom {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      
+      #custom-zoom-controls .leaflet-control-zoom-in,
+      #custom-zoom-controls .leaflet-control-zoom-out {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+      }
+      
+      /* Modal adjustments for mobile */
+      .ai-modal-content {
+        margin: 16px;
+        max-width: calc(100vw - 32px);
+        min-width: auto;
+        padding: 24px 20px 20px 20px;
+      }
+      
+      .ai-modal-content h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+      
+      .share-modal-content {
+        margin: 16px;
+        max-width: calc(100vw - 32px);
+        padding: 24px 20px;
+      }
+      
+      /* Neighborhood cards mobile adjustments */
+      .neighborhood-card {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .neighborhood-card img {
+        aspect-ratio: 1/1;
+        object-fit: cover;
+      }
+      
+      /* Action buttons mobile adjustments */
+      .right-panel-action-btn {
+        padding: 12px 0 8px 0 !important;
+        font-size: 14px !important;
+      }
+      
+      .right-panel-action-btn svg {
+        width: 24px !important;
+        height: 24px !important;
+      }
+      
+      .right-panel-action-btn span {
+        font-size: 0.9rem !important;
+      }
+      
+      /* Text adjustments for mobile */
+      #right-panel div[style*="font-size:1.7rem"] {
+        font-size: 1.4rem !important;
+      }
+      
+      #right-panel div[style*="font-size:1rem"][style*="margin-top:4px"] {
+        font-size: 0.9rem !important;
+      }
+      
+      #right-panel div[style*="font-size:1.1rem"][style*="color:#222"] {
+        font-size: 1rem !important;
+        max-height: 80px !important;
+      }
+      
+      /* Show more button mobile adjustments */
+      #show-more-btn {
+        padding: 10px 0 !important;
+        font-size: 1rem !important;
+        border-radius: 18px !important;
+      }
+      
+      #right-panel .mobile-close-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 36px;
+        height: 36px;
+        background: rgba(30,30,30,0.7);
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        z-index: 1100;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        transition: background 0.15s, color 0.15s;
+      }
+      
+      #right-panel .mobile-close-btn:hover {
+        background: #ff5e62;
+      }
+      
+      #right-panel .mobile-close-btn svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+    /* Tablet adjustments */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      #right-panel {
+        width: 300px !important;
+        right: calc(3% - 75px) !important;
+        padding: 24px 16px 16px 16px !important;
+      }
+      
+      .main-nav ul {
+        font-size: 16px;
+        gap: 16px;
+      }
+      
+      .main-nav a {
+        font-size: 14px;
+      }
+    }
+    
+    /* Small mobile adjustments */
+    @media (max-width: 480px) {
+      .header-panel {
+        padding: 8px 12px;
+      }
+      
+      .main-nav ul {
+        font-size: 12px;
+        gap: 6px;
+      }
+      
+      .main-nav a {
+        padding: 4px 6px;
+        font-size: 12px;
+      }
+      
+      #right-panel {
+        right: 12px !important;
+        left: 12px !important;
+        bottom: 12px !important;
+        padding: 16px 12px 12px 12px !important;
+        overflow: hidden !important;
+      }
+      
+      .mobile-panel-toggle {
+        bottom: 12px;
+        right: 12px;
+        width: 48px;
+        height: 48px;
+      }
+      
+      .mobile-panel-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      #footer-toggle-btn {
+        left: 12px !important;
+        bottom: 12px !important;
+        min-width: 70px;
+        height: 32px;
+        font-size: 10px;
+        padding: 0 10px;
+      }
+      
+      #custom-zoom-controls {
+        left: 12px;
+        bottom: 70px;
+      }
+      
+      #custom-zoom-controls .leaflet-control-zoom-in,
+      #custom-zoom-controls .leaflet-control-zoom-out {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 16px;
+      }
+    }
+    
+    /* Landscape mobile adjustments */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .header-panel {
+        padding: 8px 16px;
+      }
+      
+      .header-panel .header-inner {
+        flex-direction: row;
+        gap: 16px;
+      }
+      
+      .logo {
+        margin-right: 16px;
+        text-align: left;
+      }
+      
+      .main-nav {
+        flex: 1;
+      }
+      
+      .main-nav ul {
+        justify-content: flex-start;
+      }
+      
+      #right-panel {
+        bottom: 8px !important;
+        right: 8px !important;
+        left: 8px !important;
+        max-height: 60vh;
+        overflow: hidden !important;
+      }
+      
+      .mobile-panel-toggle {
+        bottom: 8px;
+        right: 8px;
+      }
+      
+      #footer-toggle-btn {
+        left: 8px !important;
+        bottom: 8px !important;
+      }
+      
+      #custom-zoom-controls {
+        left: 8px;
+        bottom: 60px;
+      }
+    }
+    
+    /* Touch device improvements */
+    .touch-device button,
+    .touch-device .neighborhood-card,
+    .touch-device .right-panel-action-btn {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    .touch-device #right-panel {
+      overflow: hidden !important;
+    }
+    
+    .touch-device .mobile-panel-toggle {
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Prevent zoom on input focus for iOS */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      input[type="text"],
+      input[type="search"] {
+        font-size: 16px;
+      }
+    }
+    
+    /* Improve scrolling performance */
+    .ai-modal-content,
+    .share-modal-content {
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    
+    /* Better focus states for accessibility */
+    button:focus,
+    .neighborhood-card:focus,
+    .right-panel-action-btn:focus {
+      outline: 2px solid #29b6f6;
+      outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      #right-panel {
+        border: 2px solid #000;
+        background: rgba(255,255,255,0.95);
+      }
+      
+      .mobile-panel-toggle {
+        border: 2px solid #000;
+        background: rgba(255,255,255,0.95);
+      }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      #right-panel {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body style="min-height:100vh; display:flex; flex-direction:column;">
+  <div class="header-bg"></div>
+  <!-- Header Panel -->
+  <header class="header-panel">
+    <div class="header-inner">
+      <div class="logo" style="margin-left:-72px;"><img src="images/bitfinder-search-logo.png" alt="Bitfinder Search Logo" style="height:32px; vertical-align:middle; margin-right:12px;"></div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">Search</a></li>
+          <li><a href="#">Images</a></li>
+          <li><a href="maps.html" class="active">Maps</a></li>
+          <li><a href="#">Videos</a></li>
+          <li><a href="#"><span>Shorts</span><span class="chevron">›</span></a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <div class="user-info">
+          <div class="user-text">
+            <span class="username">Username</span>
+            <span class="user-id">#USER24156</span>
+          </div>
+          <span class="avatar"></span>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger-menu" aria-label="Open menu" style="display:none; background:none; border:none; cursor:pointer; margin-left:16px;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#757575" stroke-width="3" stroke-linecap="round">
+        <line x1="7" y1="10" x2="25" y2="10" />
+        <line x1="7" y1="16" x2="25" y2="16" />
+        <line x1="7" y1="22" x2="25" y2="22" />
+      </svg>
+    </button>
+  </header>
+
+  <div class="full-width-map">
+    <div id="stadia-map"></div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Floating Cards and Markers -->
+    <!-- Small Icon Markers -->
+    <!-- (REMOVED: old absolutely positioned icon markers) -->
+    <!-- Zoom Controls -->
+    <!-- Removed custom zoom in/out buttons -->
+    <!-- Floating Right Panel -->
+    <aside id="right-panel" style="position:absolute; right:calc(5% - 90px); top:4%; z-index:15; width:340px; background:rgba(255,255,255,0.62); border:1.5px solid rgba(255,255,255,0.45); box-shadow:0 8px 32px 0 rgba(30,60,120,0.18); border-radius:28px; padding:28px 18px 18px 18px; backdrop-filter:blur(24px); display:flex; flex-direction:column; align-items:stretch;">
+      <button class="mobile-close-btn" aria-label="Close" style="display:none;">
+        <svg width="32" height="32" viewBox="0 0 32 32" stroke="white" stroke-width="3.5" stroke-linecap="round">
+          <line x1="8" y1="8" x2="24" y2="24" />
+          <line x1="24" y1="8" x2="8" y2="24" />
+        </svg>
+      </button>
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px;">
+        <div>
+          <div style="font-size:1.7rem; font-weight:300; color:#444; letter-spacing:-0.01em; line-height:1;">Los Angeles</div>
+          <div style="font-size:1rem; color:#b0b0b0; margin-top:4px;">California, USA</div>
+        </div>
+        <button style="background:rgba(255,255,255,0.85); border:1.5px solid #e0e0e0; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-left:8px; cursor:pointer;" title="Share">
+          <img src="https://cdn-icons-png.freepik.com/256/508/508214.png?semt=ais_hybrid" alt="Share" style="width:18px; height:18px; object-fit:contain; filter: grayscale(1) brightness(0.7);" />
+        </button>
+      </div>
+      <div style="display:flex; gap:18px; margin:0 0 18px 0;">
+        <button class="right-panel-action-btn" data-tab="Directions" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:16px; padding:18px 0 10px 0; font-size:16px; color:#888; font-weight:400; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:0 1px 8px rgba(0,0,0,0.04); transition:box-shadow 0.18s, border-color 0.18s;">
+          <svg width="28" height="28" fill="none" stroke="#bbb" stroke-width="2" viewBox="0 0 24 24"><path d="M7 12l5-5 5 5"/><path d="M12 17V7"/></svg>
+          <span style="font-size:1rem; font-weight:300; color:#888;">Directions</span>
+        </button>
+        <button class="right-panel-action-btn" data-tab="Nearby" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:16px; padding:18px 0 10px 0; font-size:16px; color:#888; font-weight:400; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:0 1px 8px rgba(0,0,0,0.04); transition:box-shadow 0.18s, border-color 0.18s;">
+          <svg width="28" height="28" fill="none" stroke="#bbb" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+          <span style="font-size:1rem; font-weight:300; color:#888;">Nearby</span>
+        </button>
+        <button class="right-panel-action-btn" data-tab="Photos" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:16px; padding:18px 0 10px 0; font-size:16px; color:#888; font-weight:400; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:0 1px 8px rgba(0,0,0,0.04); transition:box-shadow 0.18s, border-color 0.18s;">
+          <svg width="28" height="28" fill="none" stroke="#bbb" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/></svg>
+          <span style="font-size:1rem; font-weight:300; color:#888;">Photos</span>
+        </button>
+      </div>
+      <div style="font-size:1rem; color:#ff5e62; font-weight:400; margin-bottom:6px; text-align:left;">Ai Overview</div>
+      <div style="font-size:1.1rem; color:#222; line-height:1.5; max-height:60px; overflow:hidden; text-align:left; margin-bottom:12px;">Los Angeles is a vast, vibrant city at the heart of Southern California and the epicenter of the U.S. film and television industry. Near the iconic Hollywood sign, studios like Paramount Pictures, Universal, and Warner Brothers offer behind-the-scenes tours...</div>
+      <button id="show-more-btn" style="margin:0 0 18px 0; background:rgba(255,255,255,0.7); border:1.5px solid #e0e0e0; color:#bbb; font-size:1.05rem; font-weight:400; cursor:pointer; border-radius:22px; width:100%; padding:12px 0; box-shadow:0 1px 8px rgba(0,0,0,0.04);">Show More</button>
+      <div style="height:1.5px; background:rgba(200,200,200,0.18); margin:0 0 12px 0; border-radius:2px;"></div>
+      <div style="font-size:1.05rem; color:#888; font-weight:400; margin-bottom:12px; text-align:left;">Neighborhoods</div>
+      <div style="display:flex; gap:10px;">
+        <div class="neighborhood-card" data-name="Hollywood" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:12px; box-shadow:0 1px 8px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column; align-items:center; cursor:pointer; transition:box-shadow 0.18s, border-color 0.18s;">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:0; margin-bottom:0;" alt="Hollywood" />
+          <div style="font-size:1rem; color:#888; font-weight:300; padding:8px 0 7px 0;">Hollywood</div>
+        </div>
+        <div class="neighborhood-card" data-name="Venice" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:12px; box-shadow:0 1px 8px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column; align-items:center; cursor:pointer; transition:box-shadow 0.18s, border-color 0.18s;">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=400&h=400" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:0; margin-bottom:0;" alt="Venice" />
+          <div style="font-size:1rem; color:#888; font-weight:300; padding:8px 0 7px 0;">Venice</div>
+        </div>
+        <div class="neighborhood-card" data-name="Downtown" style="flex:1; background:rgba(255,255,255,0.55); border:1.5px solid #e0e0e0; border-radius:12px; box-shadow:0 1px 8px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column; align-items:center; opacity:0.45; cursor:default; transition:box-shadow 0.18s, border-color 0.18s;">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=facearea&w=400&h=400" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:0; margin-bottom:0; filter:grayscale(1);" alt="Downtown" />
+          <div style="font-size:1rem; color:#888; font-weight:300; padding:8px 0 7px 0;">Downtown</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer Tab Button - Outside main-layout to ensure visibility -->
+  <div style="position:fixed; left:20px; bottom:20px; z-index:30; display:flex; align-items:center; gap:16px;">
+    <div id="custom-zoom-controls"></div>
+    <button id="footer-toggle-btn" style="width:auto; min-width:100px; height:40px; background:rgba(255,255,255,0.95); border:2px solid rgba(180,180,180,0.3); border-radius:20px; box-shadow:0 4px 16px rgba(0,0,0,0.15); font-size:13px; color:#666; cursor:pointer; padding:0 16px; display:flex; align-items:center; justify-content:center; gap:8px; backdrop-filter:blur(16px); transition:all 0.3s ease; font-weight:500;" title="Toggle Footer">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+      <span id="footer-btn-text">Show Footer</span>
+    </button>
+  </div>
+
+  <footer class="footer-section custom-footer" style="background:linear-gradient(0deg, #eaf2fa 0%, #f8fafd 60%, rgba(248,250,253,0) 100%); border:none; box-shadow:none; padding:12px 0 12px 0; gap:16px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:none; flex-direction:column; align-items:center; position:fixed; bottom:0; left:0; right:0; z-index:20;">
+    <div class="system-info" style="text-align:center; color:#bbb; font-size:13px; margin-bottom:12px;">
+      <div style="font-size:18px; color:#bbb; font-family:'Satoshi',sans-serif; font-weight:600; margin-bottom:8px;">Bitfinder.</div>
+      <div style="margin-bottom:8px;">Bitfinder™ v1.2.0 (Build 4205)<br>© 2025 Bitfinder Inc. All rights reserved.</div>
+      <div style="margin-bottom:8px;">
+        Website | Privacy Policy | Terms of Use | Support | System Status
+      </div>
+      <div style="margin-bottom:8px;">
+        System Pages: Diagnostics | Update Logs | Account Settings | Data Export
+      </div>
+      <div style="margin-bottom:8px;">
+        Support Contact: Need help or have feedback?
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:center; gap:16px; width:100%; max-width:600px;">
+      <div class="footer-pill">
+        <img src="https://www.shutterstock.com/image-vector/website-pages-line-icon-tabs-260nw-2094186058.jpg" alt="Tabs icon" class="footer-icon" />
+        <span>Tabs</span>
+      </div>
+      <span class="footer-chevron">&#x2039;</span>
+      <div class="footer-pill footer-center">
+        <input type="text" class="footer-center-text" placeholder="Get Curious." title="Footer search input" />
+      </div>
+      <span class="footer-chevron">&#x203A;</span>
+      <div class="footer-pill">
+        <img src="https://cdn-icons-png.flaticon.com/512/2950/2950714.png" alt="Adam chat icon" class="footer-icon" />
+        <span>Adam</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="share-modal" class="share-modal" style="display:none;">
+    <div class="share-modal-content">
+      <button class="share-modal-close" id="close-share-modal">&times;</button>
+      <h2>Share this page</h2>
+      <div class="share-buttons">
+        <a href="#" class="share-btn whatsapp" target="_blank">WhatsApp</a>
+        <a href="#" class="share-btn facebook" target="_blank">Facebook</a>
+        <a href="#" class="share-btn telegram" target="_blank">Telegram</a>
+        <a href="#" class="share-btn twitter" target="_blank">Twitter</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Show More Modal -->
+  <div id="ai-modal" class="ai-modal">
+    <div class="ai-modal-content" style="background:#fff; border-radius:22px; box-shadow:0 8px 32px 0 rgba(30,60,120,0.18); padding:36px 32px 28px 32px; min-width:340px; max-width:90vw; display:flex; flex-direction:column; align-items:flex-start; position:relative;">
+      <button id="close-ai-modal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:28px; color:#bbb; cursor:pointer; transition:color 0.15s;">&times;</button>
+      <h2 style="margin:0 0 18px 0; font-size:22px; color:#222; font-weight:600;">AI Overview: Los Angeles</h2>
+      <div style="font-size:1.1rem; color:#444; line-height:1.6; margin-bottom:18px;">
+        Los Angeles is a sprawling metropolis known for its Mediterranean climate, ethnic diversity, and the entertainment industry. The city is home to world-famous attractions such as Hollywood, Venice Beach, and Griffith Observatory. LA is a global center for business, international trade, education, media, and science. Its vibrant neighborhoods offer a mix of cultures, cuisines, and experiences.<br><br>
+        <strong>Fun Fact:</strong> Los Angeles has more museums per capita than any city in the world!
+      </div>
+      <div style="margin-bottom:12px;">
+        <strong>Sources:</strong>
+        <ul style="margin:8px 0 0 18px; color:#888; font-size:0.98rem;">
+          <li><a href="https://en.wikipedia.org/wiki/Los_Angeles" target="_blank" rel="noopener" style="color:#29b6f6; text-decoration:underline;">Wikipedia: Los Angeles</a></li>
+          <li><a href="https://www.discoverlosangeles.com/" target="_blank" rel="noopener" style="color:#29b6f6; text-decoration:underline;">Discover Los Angeles</a></li>
+          <li><a href="https://www.timeout.com/los-angeles" target="_blank" rel="noopener" style="color:#29b6f6; text-decoration:underline;">Time Out LA</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-nav-overlay" style="display:none;">
+    <div class="mobile-nav-menu">
+      <div class="user-info" style="margin-bottom:32px; justify-content:center;">
+        <div class="user-text">
+          <span class="username">Username</span>
+          <span class="user-id">#USER24156</span>
+        </div>
+        <span class="avatar"></span>
+      </div>
+      <button class="mobile-nav-close" aria-label="Close menu">
+        <svg width="28" height="28" viewBox="0 0 32 32" stroke="#757575" stroke-width="3.5" stroke-linecap="round">
+          <line x1="8" y1="8" x2="24" y2="24" />
+          <line x1="24" y1="8" x2="8" y2="24" />
+        </svg>
+      </button>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Search</a></li>
+        <li><a href="#">Images</a></li>
+        <li><a href="maps.html" class="active">Maps</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#"><span>Shorts</span><span class="chevron">›</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const footer = document.querySelector('.footer-section.custom-footer');
+      if (window.scrollY > 0) {
+        footer.classList.add('footer-visible');
+      } else {
+        footer.classList.remove('footer-visible');
+      }
+    });
+
+    // Footer Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const footerToggleBtn = document.getElementById('footer-toggle-btn');
+      const footerBtnText = document.getElementById('footer-btn-text');
+      const footer = document.querySelector('.footer-section.custom-footer');
+      let footerVisible = false;
+
+      if (footerToggleBtn && footer && footerBtnText) {
+        footerToggleBtn.addEventListener('click', function() {
+          footerVisible = !footerVisible;
+          
+          if (footerVisible) {
+            footer.style.display = 'flex';
+            footerBtnText.textContent = 'Hide Footer';
+            footerToggleBtn.style.background = 'rgba(255,179,71,0.15)';
+            footerToggleBtn.style.borderColor = '#ffb347';
+            footerToggleBtn.style.color = '#ffb347';
+            footerToggleBtn.style.boxShadow = '0 0 0 3px rgba(255,179,71,0.13), 0 2px 12px rgba(255,179,71,0.10)';
+          } else {
+            footer.style.display = 'none';
+            footerBtnText.textContent = 'Show Footer';
+            footerToggleBtn.style.background = 'rgba(255,255,255,0.85)';
+            footerToggleBtn.style.borderColor = 'rgba(180,180,180,0.22)';
+            footerToggleBtn.style.color = '#888';
+            footerToggleBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.10)';
+          }
+        });
+      }
+    });
+
+    // Share Modal Functionality
+    const shareBtn = document.getElementById('share-btn');
+    const shareModal = document.getElementById('share-modal');
+    const closeShareModal = document.getElementById('close-share-modal');
+    const shareLinks = document.querySelectorAll('.share-btn');
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(document.title);
+
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        shareModal.style.display = 'flex';
+      });
+    }
+    if (closeShareModal) {
+      closeShareModal.addEventListener('click', function() {
+        shareModal.style.display = 'none';
+      });
+    }
+    window.addEventListener('click', function(e) {
+      if (e.target === shareModal) {
+        shareModal.style.display = 'none';
+      }
+    });
+    const whatsappBtn = document.querySelector('.share-btn.whatsapp');
+    const facebookBtn = document.querySelector('.share-btn.facebook');
+    const telegramBtn = document.querySelector('.share-btn.telegram');
+    const twitterBtn = document.querySelector('.share-btn.twitter');
+    
+    if (whatsappBtn) whatsappBtn.setAttribute('href', `https://wa.me/?text=${shareText}%20${shareUrl}`);
+    if (facebookBtn) facebookBtn.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`);
+    if (telegramBtn) telegramBtn.setAttribute('href', `https://t.me/share/url?url=${shareUrl}&text=${shareText}`);
+    if (twitterBtn) twitterBtn.setAttribute('href', `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`);
+
+    // AI Modal Show/Hide Logic
+    document.addEventListener('DOMContentLoaded', function() {
+      const showMoreBtn = document.getElementById('show-more-btn');
+      const aiModal = document.getElementById('ai-modal');
+      const closeAiModal = document.getElementById('close-ai-modal');
+      if (showMoreBtn && aiModal && closeAiModal) {
+        showMoreBtn.addEventListener('click', function() {
+          // Detect if LA Custom Cars is the current panel
+          let title = '';
+          let desc = '';
+          let sources = [];
+          let images = [];
+          const aside = document.getElementById('right-panel');
+          if (aside) {
+            const titleDiv = aside.querySelector('div[style*="font-size:1.7rem"]');
+            if (titleDiv && titleDiv.textContent.trim().toLowerCase().includes('custom')) {
+              title = 'AI Overview: LA Custom Cars';
+              desc = `LA Custom Cars is a well-known business in Los Angeles, CA, specializing in custom car design, modification, and restoration. They are recognized for their high-quality craftsmanship, attention to detail, and ability to transform classic and modern vehicles into unique, personalized works of art. Services often include bodywork, paint, interiors, performance upgrades, and specialty modifications for both collectors and enthusiasts.<br><br><strong>What Makes Them Stand Out:</strong><ul style='margin:8px 0 8px 18px; color:#888; font-size:0.98rem;'><li>Trusted by classic car collectors and modern car owners alike.</li><li>Recognized for quality workmanship, outstanding customer service, and ethical business practices.</li><li>Approved by major insurance networks for specialty and collector vehicles.</li><li>Featured in car enthusiast communities and social media for their creative builds.</li></ul>`;
+              images = [
+                'https://cars.bonhams.com/_next/image.jpg?url=https%3A%2F%2Fimg2.bonhams.com%2Fimage%3Fsrc%3DImages%2Flive%2F2010-07%2F09%2F8119377-1-1.JPG&w=2400&q=75',
+                'https://laautoshow.com/wp-content/uploads/2022/12/2022-LA-Auto-Show-West-Coast-Customs-2.jpg.webp',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9PUF8HeyBkayD6YaXWx-6sYYry4CpNFIe6MdQPKH_IWULBZkBY1x-zMTF08jVma_ITdo&usqp=CAU'
+              ];
+              sources = [
+                {name: 'L.A. Street Customs - Official Site', url: 'https://www.lastreetcustoms.com/'},
+                {name: 'LA Custom Designs (Facebook)', url: 'https://www.facebook.com/LACUSTOMDESIGZ/'},
+                {name: 'Custom Auto Craft (LinkedIn)', url: 'https://www.linkedin.com/company/custom-auto-craft'},
+                {name: 'Custom Auto Craft Inc (LinkedIn)', url: 'https://www.linkedin.com/company/custom-auto-craft-inc'}
+              ];
+            }
+            // Skatepark logic (existing)
+            else if (titleDiv && titleDiv.textContent.trim().toLowerCase().includes('skatepark')) {
+              title = 'AI Overview: Los Angeles Skateparks';
+              desc = `Los Angeles is home to some of the most iconic skateparks in the world, including the Venice Beach Skatepark and the Cove Skatepark in Santa Monica. These parks offer a variety of features for skaters of all levels, from bowls and ramps to street plazas. The skateboarding culture in LA is vibrant and deeply rooted in the city's history.<br><br><strong>Fun Fact:</strong> Venice Beach Skatepark was built in 2009 and quickly became a global destination for skaters.`;
+              sources = [
+                {name: 'Venice Beach Skatepark', url: 'https://www.venicebeach.com/attractions/venice-beach-skatepark/'},
+                {name: 'Cove Skatepark', url: 'https://www.smgov.net/Departments/CCS/content.aspx?id=3976'},
+                {name: 'LA Parks Skateparks', url: 'https://www.laparks.org/skateparks'}
+              ];
+            }
+            else if (titleDiv && titleDiv.textContent.trim().toLowerCase().includes('pop-up') || titleDiv.textContent.trim().toLowerCase().includes('coffee popup')) {
+              title = 'AI Overview: Pop-Up Caffe';
+              desc = `Pop-Up Caffe is a creative coffee stand in Los Angeles, CA, known for its artisanal brews, unique pop-up experiences, and community-driven atmosphere. They offer specialty coffee drinks, pastries, and often collaborate with local artists and food vendors. The shop is a favorite for both locals and visitors seeking a memorable coffee experience.<br><br><strong>What Makes Them Special:</strong><ul style='margin:8px 0 8px 18px; color:#888; font-size:0.98rem;'><li>Rotating menu of specialty coffee and seasonal drinks.</li><li>Collaborations with local bakers and artists.</li><li>Instagram-worthy pop-up events and decor.</li><li>Highly rated for friendly service and creative drinks.</li></ul>`;
+              images = [
+                'https://marcobeveragesystems.com/wp-content/uploads/sites/2/2022/06/jonathan-borba-5G9uIkAXLSc-unsplash.jpg',
+                'https://www.datocms-assets.com/20941/1663765103-best-coffee-drinks.png?w=1000&fit=max&fm=jpg',
+                'https://esquirescoffee.co.uk/wp-content/uploads/2021/10/christina-rumpf-LMzwJDu6hTE-unsplash-scaled-e1666263696700.jpg'
+              ];
+              sources = [
+                {name: 'Stumptown Coffee LA', url: 'https://www.stumptowncoffee.com/'},
+                {name: 'Visit California: LA Coffee Shops', url: 'https://www.visitcalifornia.com/experience/los-angeles-coffee-shops/'},
+                {name: 'Best Coffee Drinks', url: 'https://www.timeout.com/los-angeles/restaurants/best-coffee-shops-in-los-angeles'}
+              ];
+            }
+          }
+          // Fallback if not LA Custom Cars or Skatepark
+          if (!title) {
+            title = 'AI Overview: Los Angeles';
+            desc = `Los Angeles is a sprawling metropolis known for its Mediterranean climate, ethnic diversity, and the entertainment industry. The city is home to world-famous attractions such as Hollywood, Venice Beach, and Griffith Observatory. LA is a global center for business, international trade, education, media, and science. Its vibrant neighborhoods offer a mix of cultures, cuisines, and experiences.<br><br><strong>Fun Fact:</strong> Los Angeles has more museums per capita than any city in the world!`;
+            sources = [
+              {name: 'Wikipedia: Los Angeles', url: 'https://en.wikipedia.org/wiki/Los_Angeles'},
+              {name: 'Discover Los Angeles', url: 'https://www.discoverlosangeles.com/'},
+              {name: 'Time Out LA', url: 'https://www.timeout.com/los-angeles'}
+            ];
+          }
+          // Set modal content
+          aiModal.querySelector('h2').textContent = title;
+          let descHtml = desc;
+          if (images && images.length && title.includes('Custom Cars')) {
+            descHtml += `<div style='display:flex; gap:12px; margin:18px 0 10px 0;'>` +
+              images.map(img => `<img src='${img}' alt='LA Custom Cars' style='width:16%; border-radius:10px; object-fit:cover;'/>`).join('') +
+              `</div>`;
+          }
+          if (images && images.length && title.includes('Pop-Up Caffe')) {
+            descHtml += `<div style='display:flex; gap:12px; margin:18px 0 10px 0;'>` +
+              images.map(img => `<img src='${img}' alt='Pop-Up Caffe' style='width:16%; border-radius:10px; object-fit:cover;'/>`).join('') +
+              `</div>`;
+          }
+          aiModal.querySelector('div[style*="font-size:1.1rem"]').innerHTML = descHtml;
+          const sourcesList = aiModal.querySelector('ul');
+          if (sourcesList) {
+            sourcesList.innerHTML = sources.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener" style="color:#29b6f6; text-decoration:underline;">${s.name}</a></li>`).join('');
+          }
+          aiModal.classList.add('show');
+        });
+        closeAiModal.addEventListener('click', function() {
+          aiModal.classList.remove('show');
+        });
+        aiModal.addEventListener('click', function(e) {
+          if (e.target === aiModal) aiModal.classList.remove('show');
+        });
+      }
+    });
+  </script>
+
+  <script>
+    // Load Leaflet CSS and JS dynamically
+    function loadLeaflet() {
+      return new Promise((resolve, reject) => {
+        // Load Leaflet CSS
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        css.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+        css.crossOrigin = '';
+        document.head.appendChild(css);
+        
+        // Load Leaflet JS
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+        script.crossOrigin = '';
+        script.onload = () => {
+          console.log('Leaflet loaded successfully');
+          resolve();
+        };
+        script.onerror = () => {
+          console.error('Failed to load Leaflet');
+          reject(new Error('Leaflet failed to load'));
+        };
+        document.head.appendChild(script);
+      });
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing map...');
+      
+      // Force map container to be visible
+      const mapContainer = document.getElementById('stadia-map');
+      if (mapContainer) {
+        mapContainer.style.background = '#e0e0e0';
+        mapContainer.style.minHeight = '400px';
+        console.log('Map container found:', mapContainer);
+      } else {
+        console.error('Map container not found!');
+      }
+      
+      // Load Leaflet and initialize map
+      async function initMap() {
+        try {
+          await loadLeaflet();
+          
+          // Wait for Leaflet to be available
+          let attempts = 0;
+          while (typeof L === 'undefined' && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+          }
+          
+          if (typeof L === 'undefined') {
+            throw new Error('Leaflet failed to load after 5 seconds');
+          }
+          
+          console.log('Leaflet loaded, creating map...');
+          var map = L.map('stadia-map', {
+            center: [34.0522, -118.2437],
+            zoom: 11
+          });
+          console.log('Map created:', map);
+          
+          // Use OpenStreetMap tiles (no API key required)
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 20,
+            minZoom: 2,
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
+          
+          // Add error handling for tile loading
+          map.on('tileerror', function(e) {
+            console.error('Tile loading error:', e);
+          });
+          
+          map.on('load', function() {
+            console.log('Map loaded successfully');
+          });
+          
+          console.log('Map initialization complete');
+          // --- Custom Map Card Markers ---
+          const cardData = [
+            {
+              name: 'LA Customs',
+              html: `<div class=\"map-card\"><div style=\"position:relative;\"><div style=\"position:absolute; top:7px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.85); border-radius:6px; font-size:9px; color:#888; padding:1px 6px; font-weight:700; z-index:2;\">SPONSORED</div><img src=\"https://lh4.googleusercontent.com/proxy/FO9fcD2cR6UKrB_cFcU3oICyqJ1AznJAwn05z_6I6PY1gfTMUAi6JLrdadVe9u2EqwaFX2XHq-1Mc6zewVy6rQAC5aYAR7HVr1vN1ioILqRMPEK4s2j3V_MLrZ_VzfDx\" style=\"width:100%; height:130px; object-fit:cover; display:block; border-radius:10px;\" alt=\"LA Customs\" /></div><div style=\"background:#f5f5f5; text-align:center; color:#888; font-size:14px; font-weight:500; padding:14px 0 10px 0;\">LA Customs</div></div>`,
+              coords: [34.1000, -118.3500] // North-West LA
+            },
+            {
+              name: 'Downtown',
+              html: `<div class=\"map-card downtown-card\" style=\"margin-top:60px;\"><div style=\"width:100%; height:130px; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;\"><img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGXHjqb6n6vbGRHbCaxae-XhBTaz7Fcyghjg&s\" style=\"width:100%; height:130px; object-fit:cover; display:block; border-radius:10px;\" alt=\"Downtown\" /></div><div style=\"background:#f5f5f5; text-align:center; color:#888; font-size:14px; font-weight:500; padding:14px 0 10px 0;\">Downtown</div></div>`,
+              coords: [34.0522, -118.2437] // Central LA
+            },
+            {
+              name: 'Skatepark',
+              html: `<div class=\"map-card\" style=\"pointer-events:auto; background:#fff;\"><div style=\"width:100%; height:130px; background:#fff; display:flex; align-items:center; justify-content:center;\"><img src=\"https://actionparkalliance.com/wp-content/uploads/La-Quinta-Skatepark-by-Chris-Casas-0971-3-1-1200x899.jpg\" style=\"width:100%; height:130px; object-fit:cover; display:block; border-radius:10px;\" alt=\"Skatepark\" /></div><div style=\"background:#f5f5f5; text-align:center; color:#888; font-size:14px; font-weight:500; padding:14px 0 10px 0;\">Skatepark</div></div>`,
+              coords: [33.9800, -118.4700] // South-West LA (near Venice Beach)
+            },
+            {
+              name: 'Pop-Up Caffe',
+              html: `<div class=\"map-card\" id=\"popup-caffe-marker\" style=\"pointer-events:auto; background:#fff;\"><div style=\"position:relative;\"><div style=\"position:absolute; top:7px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.85); border-radius:6px; font-size:9px; color:#888; padding:1px 6px; font-weight:700; z-index:2;\">SPONSORED</div><img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcIMKNJGqCyadj8Nko9oV3xzYd9rd07rDbKynkjELx8QQLipoWix3zdrUp5e1W1g9rB0&usqp=CAU\" style=\"width:100%; height:130px; object-fit:cover; display:block; border-radius:10px;\" alt=\"Pop-Up Caffe\" /></div><div style=\"background:#f5f5f5; text-align:center; color:#888; font-size:14px; font-weight:500; padding:14px 0 10px 0;\">Pop-Up Caffe</div></div>`,
+              coords: [34.0800, -118.1500] // East LA
+            }
+          ];
+          cardData.forEach((card, i) => {
+            const marker = L.marker(card.coords, {
+              icon: L.divIcon({
+                className: 'custom-marker',
+                html: card.html,
+                iconSize: [180, 200],
+                iconAnchor: [90, 190], // bottom center of card
+                interactive: card.name === 'Pop-Up Caffe' ? true : card.name === 'Skatepark' ? true : false
+              })
+            }).addTo(map);
+            // Add click event for Pop-Up Caffe
+            if (card.name === 'Pop-Up Caffe') {
+              marker.on('click', function() {
+                console.log('Pop-Up Caffe marker clicked!');
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'Coffee Popup: Coffee With A Cause';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = '6956 N Figueroa St, Highland Park, CA';
+                // Update AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = 'Info & Details';
+                // Update AI Overview content
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <span style='font-size:1.08rem; color:#222; font-weight:600;'>5.0 ★ <span style='color:#888;'>(8 Google reviews)</span></span><br>
+                    <span style='color:#888;'>$1–10 · Coffee stand</span><br>
+                    <span style='color:#888;'>Phone: <a href='tel:+16263447357' style='color:#29b6f6; text-decoration:underline;'>+1 626-344-7357</a></span><br>
+                    <span style='color:#888;'>Hours: <span style='color:#ff5e62;'>Closed</span> · Opens 8am</span><br>
+                    <div style='margin:10px 0 0 0; display:flex; gap:10px; flex-wrap:wrap;'>
+                      <a href='https://goo.gl/maps/2Qw2Qw2Qw2Qw2' target='_blank' style='background:#f5f4fb; border:1px solid #e0e0e0; border-radius:8px; padding:6px 14px; color:#888; font-size:0.98rem; text-decoration:none;'>Website</a>
+                      <a href='https://goo.gl/maps/2Qw2Qw2Qw2Qw2' target='_blank' style='background:#f5f4fb; border:1px solid #e0e0e0; border-radius:8px; padding:6px 14px; color:#888; font-size:0.98rem; text-decoration:none;'>Directions</a>
+                      <a href='https://goo.gl/maps/2Qw2Qw2Qw2Qw2' target='_blank' style='background:#f5f4fb; border:1px solid #e0e0e0; border-radius:8px; padding:6px 14px; color:#888; font-size:0.98rem; text-decoration:none;'>Reviews</a>
+                      <a href='tel:+16263447357' style='background:#f5f4fb; border:1px solid #e0e0e0; border-radius:8px; padding:6px 14px; color:#888; font-size:0.98rem; text-decoration:none;'>Call</a>
+                    </div>
+                    <div style='margin-top:10px; color:#888; font-size:0.97rem;'>Coffee Popup is a local favorite for artisanal brews and creative pastries. Fun Fact: Their signature cold brew is made with beans sourced from micro-lot farms in Central America!</div>
+                  `;
+                }
+                // For Pop-Up Caffe marker click handler, after updating content, add:
+                aside.classList.add('mobile-visible');
+                aside.style.display = '';
+                // This ensures the floating panel slides up for all cards on mobile.
+              });
+            }
+            // Add click event for Skatepark
+            if (card.name === 'Skatepark') {
+              marker.on('click', function() {
+                console.log('Skatepark marker clicked!');
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'Skatepark';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = '221 N Figueroa Street Suite 350 Los Angeles, CA 90012 United States';
+                // Remove AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = '';
+                // Show skatepark info by default
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <div style='display:flex; gap:12px; margin-bottom:10px;'>
+                      <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPdXkPdx0H3OGqdttefgadUrxTF1wL9gneEMc9l-J3yzCn0ELfdMp_1xlLdxWFb-YtO20&usqp=CAU' alt='Skatepark 1' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                      <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-RUB10Kh1xxg8ZZD3pG22sCCq1hB0Q_iotg&s' alt='Skatepark 2' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                      <img src='https://actionparkalliance.com/wp-content/uploads/La-Quinta-Skatepark-by-Chris-Casas-0971-3-1-1200x899.jpg' alt='Skatepark 3' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                    </div>
+                    <span style='font-size:1.08rem; color:#222; font-weight:600;'>Los Angeles Skateparks</span><br>
+                    <div style='max-height:70px; overflow-y:auto; margin:8px 0 10px 0; font-size:1.01rem; color:#888; line-height:1.5; padding-right:6px;'>
+                      Los Angeles has numerous skateparks, both indoor and outdoor, catering to various skill levels and preferences. Some popular options include the Venice Beach Skatepark, known for its ocean views and variety of features, and the Cove Skatepark in Santa Monica, a historic spot for skateboarding innovation.
+                    </div>
+                    <span style='color:#888;'>Phone: <a href='tel:+12132022700' style='color:#29b6f6; text-decoration:underline;'>(213) 202-2700</a></span><br>
+                    <span style='color:#888;'>Email: <a href='mailto:RAP.PublicInfo@lacity.org' style='color:#29b6f6; text-decoration:underline;'>RAP.PublicInfo@lacity.org</a></span>
+                  `;
+                }
+                // Add event listeners for right panel action buttons
+                const btns = aside.querySelectorAll('.right-panel-action-btn');
+                if (btns.length === 3) {
+                  // Directions
+                  btns[0].onclick = function() {
+                    if (aiOverview) {
+                      aiOverview.innerHTML = `
+                        <div style='display:flex; gap:12px; margin-bottom:10px;'>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPdXkPdx0H3OGqdttefgadUrxTF1wL9gneEMc9l-J3yzCn0ELfdMp_1xlLdxWFb-YtO20&usqp=CAU' alt='Skatepark 1' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-RUB10Kh1xxg8ZZD3pG22sCCq1hB0Q_iotg&s' alt='Skatepark 2' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://actionparkalliance.com/wp-content/uploads/La-Quinta-Skatepark-by-Chris-Casas-0971-3-1-1200x899.jpg' alt='Skatepark 3' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                        </div>
+                        <span style='font-size:1.08rem; color:#222; font-weight:600;'>Los Angeles Skateparks</span><br>
+                        <div style='max-height:70px; overflow-y:auto; margin:8px 0 10px 0; font-size:1.01rem; color:#888; line-height:1.5; padding-right:6px;'>
+                          Los Angeles has numerous skateparks, both indoor and outdoor, catering to various skill levels and preferences. Some popular options include the Venice Beach Skatepark, known for its ocean views and variety of features, and the Cove Skatepark in Santa Monica, a historic spot for skateboarding innovation.
+                        </div>
+                        <span style='color:#888;'>Phone: <a href='tel:+12132022700' style='color:#29b6f6; text-decoration:underline;'>(213) 202-2700</a></span><br>
+                        <span style='color:#888;'>Email: <a href='mailto:RAP.PublicInfo@lacity.org' style='color:#29b6f6; text-decoration:underline;'>RAP.PublicInfo@lacity.org</a></span>
+                      `;
+                    }
+                  };
+                  // Nearby
+                  btns[1].onclick = function() {
+                    if (aiOverview) {
+                      aiOverview.innerHTML = `
+                        <div style='display:flex; gap:12px; margin-bottom:10px;'>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPdXkPdx0H3OGqdttefgadUrxTF1wL9gneEMc9l-J3yzCn0ELfdMp_1xlLdxWFb-YtO20&usqp=CAU' alt='Skatepark 1' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-RUB10Kh1xxg8ZZD3pG22sCCq1hB0Q_iotg&s' alt='Skatepark 2' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://actionparkalliance.com/wp-content/uploads/La-Quinta-Skatepark-by-Chris-Casas-0971-3-1-1200x899.jpg' alt='Skatepark 3' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                        </div>
+                        <span style='font-size:1.08rem; color:#222; font-weight:600;'>Los Angeles Skateparks</span><br>
+                        <div style='max-height:70px; overflow-y:auto; margin:8px 0 10px 0; font-size:1.01rem; color:#888; line-height:1.5; padding-right:6px;'>
+                          Los Angeles has numerous skateparks, both indoor and outdoor, catering to various skill levels and preferences. Some popular options include the Venice Beach Skatepark, known for its ocean views and variety of features, and the Cove Skatepark in Santa Monica, a historic spot for skateboarding innovation.
+                        </div>
+                        <span style='color:#888;'>Phone: <a href='tel:+12132022700' style='color:#29b6f6; text-decoration:underline;'>(213) 202-2700</a></span><br>
+                        <span style='color:#888;'>Email: <a href='mailto:RAP.PublicInfo@lacity.org' style='color:#29b6f6; text-decoration:underline;'>RAP.PublicInfo@lacity.org</a></span>
+                      `;
+                    }
+                  };
+                  // Photos
+                  btns[2].onclick = function() {
+                    if (aiOverview) {
+                      aiOverview.innerHTML = `
+                        <div style='display:flex; gap:12px; margin-bottom:10px;'>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPdXkPdx0H3OGqdttefgadUrxTF1wL9gneEMc9l-J3yzCn0ELfdMp_1xlLdxWFb-YtO20&usqp=CAU' alt='Skatepark 1' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-RUB10Kh1xxg8ZZD3pG22sCCq1hB0Q_iotg&s' alt='Skatepark 2' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                          <img src='https://actionparkalliance.com/wp-content/uploads/La-Quinta-Skatepark-by-Chris-Casas-0971-3-1-1200x899.jpg' alt='Skatepark 3' style='width:32%; border-radius:10px; object-fit:cover;'/>
+                        </div>
+                      `;
+                    }
+                  };
+                }
+              });
+            }
+            // Add click event for Downtown
+            if (card.name === 'Downtown') {
+              marker.on('click', function() {
+                console.log('Downtown marker clicked!');
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'Downtown Los Angeles';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = 'Downtown, Los Angeles, CA 90014, United States';
+                // Update AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = 'Info & Details';
+                // Update AI Overview content
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <span style='font-size:1.08rem; color:#222; font-weight:600;'>Downtown Los Angeles</span><br>
+                    <div style='max-height:70px; overflow-y:auto; margin:8px 0 10px 0; font-size:1.01rem; color:#888; line-height:1.5; padding-right:6px;'>
+                      Downtown Los Angeles (DTLA) is the central business district of LA, known for its iconic skyline, historic architecture, vibrant arts scene, and diverse dining options. Landmarks include the Walt Disney Concert Hall, The Broad Museum, Grand Central Market, and the Staples Center.<br><br>
+                      <strong>Fun Fact:</strong> DTLA is home to the largest historic theater district on the National Register of Historic Places!
+                    </div>
+                    <span style='color:#888;'>Address: Downtown, Los Angeles, CA 90014, United States</span><br>
+                    <span style='color:#888;'>Website: <a href='https://downtownla.com/' target='_blank' style='color:#29b6f6; text-decoration:underline;'>downtownla.com</a></span>
+                  `;
+                }
+                // For Downtown marker click handler, after updating content, add:
+                aside.classList.add('mobile-visible');
+                aside.style.display = '';
+                // This ensures the floating panel slides up for all cards on mobile.
+              });
+            }
+            // Add click event for LA Customs
+            if (card.name === 'LA Customs') {
+              marker.on('click', function() {
+                console.log('LA Customs marker clicked!');
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'LA Custom Cars';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = 'Los Angeles, CA';
+                // Update AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = 'Info & Details';
+                // Update AI Overview content
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <span style='font-size:1.08rem; color:#222; font-weight:600;'>LA Custom Cars</span><br>
+                    <div style='max-height:70px; overflow-y:auto; margin:8px 0 10px 0; font-size:1.01rem; color:#888; line-height:1.5; padding-right:6px;'>
+                      LA Custom Cars in Los Angeles is best known for modifying and customizing cars, from luxury vehicles to performance street cars. Their expert team transforms ordinary vehicles into unique, head-turning rides, making them a staple in LA's vibrant car culture.<br><br>
+                      <strong>Fun Fact:</strong> LA is home to some of the most famous custom car shops in the world, often featured in movies and TV shows!
+                    </div>
+                    <span style='color:#888;'>Address: Los Angeles, CA</span><br>
+                    <span style='color:#888;'>Website: <a href='https://www.lacustoms.com/' target='_blank' style='color:#29b6f6; text-decoration:underline;'>lacustoms.com</a></span>
+                  `;
+                }
+                // For LA Customs marker click handler, after updating content, add:
+                aside.classList.add('mobile-visible');
+                aside.style.display = '';
+                // This ensures the floating panel slides up for all cards on mobile.
+              });
+            }
+          });
+          // --- Custom Icon Markers ---
+          console.log('Adding custom icon markers...');
+          const iconMarkers = [
+            {
+              name: 'Location Icon',
+              coords: [34.8958, -116.9956],
+              html: `<div style=\"width:64px; height:64px; display:flex; align-items:center; justify-content:center;\"><div style=\"width:64px; height:64px; background:rgba(255,255,255,0.92); border:2px solid #eee; border-radius:18px; box-shadow:0 2px 8px rgba(0,0,0,0.10); display:flex; align-items:center; justify-content:center;\"><svg width=\"32\" height=\"32\" fill=\"none\" stroke=\"#bbb\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z\"/></svg></div></div>`
+            },
+            {
+              name: 'Camera Icon',
+              coords: [33.77073 + 0.001 + 0.00055 + 0.00046, -118.1937],
+              html: `<div style=\"width:64px; height:64px; display:flex; align-items:center; justify-content:center;\"><div style=\"width:64px; height:64px; background:rgba(255,255,255,0.92); border:2px solid #eee; border-radius:18px; box-shadow:0 2px 8px rgba(0,0,0,0.10); display:flex; align-items:center; justify-content:center;\"><img src=\"https://png.pngtree.com/png-clipart/20230417/original/pngtree-coffee-line-icon-png-image_9063308.png\" alt=\"Camera Icon\" style=\"width:40px; height:40px; object-fit:contain; opacity:0.8;\"/></div></div>`
+            },
+            {
+              name: 'Bed Icon',
+              coords: [34.1706, -118.7476 + 0.09],
+              html: `<div style=\"width:64px; height:64px; display:flex; align-items:center; justify-content:center;\"><div style=\"width:64px; height:64px; background:rgba(255,255,255,0.92); border:2px solid #eee; border-radius:18px; box-shadow:0 2px 8px rgba(0,0,0,0.10); display:flex; align-items:center; justify-content:center;\"><img src=\"https://static.vecteezy.com/system/resources/previews/003/685/225/non_2x/a-bed-icon-illustration-vector.jpg\" alt=\"Bed Icon\" style=\"width:48px; height:48px; object-fit:contain; opacity:0.8;\"/></div></div>`
+            },
+            {
+              name: 'Petrol Can Icon',
+              coords: [33.9500, -118.1337],
+              html: `<div style=\"width:64px; height:64px; display:flex; align-items:center; justify-content:center;\"><div style=\"width:64px; height:64px; background:rgba(255,255,255,0.92); border:2px solid #eee; border-radius:18px; box-shadow:0 2px 8px rgba(0,0,0,0.10); display:flex; align-items:center; justify-content:center;\"><img src=\"https://img.freepik.com/premium-vector/fuel-canister-icon-line-fuel-canister-web-design_288189-746.jpg\" alt=\"Petrol Can Icon\" style=\"width:40px; height:40px; object-fit:contain; opacity:0.8;\"/></div></div>`
+            }
+          ];
+          iconMarkers.forEach(icon => {
+            const marker = L.marker(icon.coords, {
+              icon: L.divIcon({
+                className: 'custom-marker',
+                html: icon.html,
+                iconSize: [64, 64],
+                iconAnchor: [32, 60],
+                interactive: true // Make the marker clickable
+              })
+            }).addTo(map);
+            // Add click event for Bed Icon
+            if (icon.name === 'Bed Icon') {
+              marker.on('click', function() {
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'Hotels in Los Angeles';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = 'Best stays in LA';
+                // Update AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = 'Hotel Listings';
+                // Update AI Overview content with hotel list, using the provided image for Hotel 1
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <div style='display:flex; flex-direction:column; gap:16px;'>
+                      <div style='display:flex; gap:12px; align-items:center;'>
+                        <img src='https://media.istockphoto.com/id/104731717/photo/luxury-resort.jpg?s=612x612&w=0&k=20&c=cODMSPbYyrn1FHake1xYz9M8r15iOfGz9Aosy9Db7mI=' style='width:64px; height:64px; object-fit:cover; border-radius:12px;' alt='Hotel 1'/>
+                        <div>
+                          <div style='font-weight:600; color:#222;'>Sunset Grand Hotel</div>
+                          <div style='color:#888; font-size:0.98rem;'>4.7 ★ | 1234 Sunset Blvd, LA</div>
+                        </div>
+                      </div>
+                      <div style='display:flex; gap:12px; align-items:center;'>
+                        <img src='https://cf.bstatic.com/xdata/images/hotel/max1024x768/23456789.jpg' style='width:64px; height:64px; object-fit:cover; border-radius:12px;' alt='Hotel 2'/>
+                        <div>
+                          <div style='font-weight:600; color:#222;'>Hollywood Plaza Inn</div>
+                          <div style='color:#888; font-size:0.98rem;'>4.5 ★ | 5678 Hollywood Blvd, LA</div>
+                        </div>
+                      </div>
+                      <div style='display:flex; gap:12px; align-items:center;'>
+                        <img src='https://cf.bstatic.com/xdata/images/hotel/max1024x768/34567890.jpg' style='width:64px; height:64px; object-fit:cover; border-radius:12px;' alt='Hotel 3'/>
+                        <div>
+                          <div style='font-weight:600; color:#222;'>Downtown Luxe Suites</div>
+                          <div style='color:#888; font-size:0.98rem;'>4.8 ★ | 9101 Main St, LA</div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }
+              });
+            }
+            // Add click event for Petrol Can Icon
+            if (icon.name === 'Petrol Can Icon') {
+              marker.on('click', function() {
+                const aside = document.getElementById('right-panel');
+                if (!aside) return;
+                // Update title and subtitle
+                aside.querySelector('div[style*="font-size:1.7rem"]').textContent = 'Fuel Stations Near Downey';
+                aside.querySelector('div[style*="font-size:1rem"][style*="margin-top:4px"]').textContent = 'Downey, CA 90241, United States';
+                // Update AI Overview label
+                const aiLabel = aside.querySelector('div[style*="font-size:1rem;"][style*="color:#ff5e62"]');
+                if (aiLabel) aiLabel.textContent = 'Fuel Station Listings';
+                // Update AI Overview content with a fake fuel station list
+                const aiOverview = aside.querySelector('div[style*="font-size:1.1rem;"][style*="color:#222"]');
+                if (aiOverview) {
+                  aiOverview.innerHTML = `
+                    <div style='font-size:1.08rem; color:#222; font-weight:600; margin-bottom:8px;'>Nearby Fuel Stations</div>
+                    <div style='display:flex; flex-direction:column; gap:10px;'>
+                      <div style='display:flex; align-items:center; gap:12px;'>
+                        <img src='https://www.76.com/content/dam/76/images/logos/76-logo.png' alt='76 Station' style='width:38px; height:38px; border-radius:8px; object-fit:cover; background:#fff; border:1px solid #eee;'>
+                        <div>
+                          <div style='font-weight:500; color:#222;'>76 Gas Station</div>
+                          <div style='color:#888; font-size:0.98rem;'>10010 Paramount Blvd, Downey, CA 90240</div>
+                          <div style='color:#ffb347; font-size:0.97rem;'>Open 24 hours</div>
+                        </div>
+                      </div>
+                      <div style='display:flex; align-items:center; gap:12px;'>
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Shell_logo.svg/1200px-Shell_logo.svg.png' alt='Shell Station' style='width:38px; height:38px; border-radius:8px; object-fit:cover; background:#fff; border:1px solid #eee;'>
+                        <div>
+                          <div style='font-weight:500; color:#222;'>Shell</div>
+                          <div style='color:#888; font-size:0.98rem;'>9020 Imperial Hwy, Downey, CA 90242</div>
+                          <div style='color:#ffb347; font-size:0.97rem;'>Open 6am–11pm</div>
+                        </div>
+                      </div>
+                      <div style='display:flex; align-items:center; gap:12px;'>
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Chevron_Logo.svg/1200px-Chevron_Logo.svg.png' alt='Chevron Station' style='width:38px; height:38px; border-radius:8px; object-fit:cover; background:#fff; border:1px solid #eee;'>
+                        <div>
+                          <div style='font-weight:500; color:#222;'>Chevron</div>
+                          <div style='color:#888; font-size:0.98rem;'>12001 Lakewood Blvd, Downey, CA 90242</div>
+                          <div style='color:#ffb347; font-size:0.97rem;'>Open 24 hours</div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }
+              });
+            }
+          });
+          console.log('Custom icon markers added:', iconMarkers);
+        } catch (error) {
+          console.error('Map initialization failed:', error);
+          // Show fallback content
+          const mapContainer = document.getElementById('stadia-map');
+          if (mapContainer) {
+            mapContainer.innerHTML = '<div style="width:100%; height:100%; background:linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f0f0 75%), linear-gradient(-45deg, transparent 75%, #f0f0f0 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; display:flex; align-items:center; justify-content:center; color:#666; font-size:18px;">Map Loading Failed - Check Console</div>';
+          }
+        }
+      }
+      
+      initMap().then(() => {
+        // Move Leaflet zoom controls to custom container
+        const zoom = document.querySelector('.leaflet-control-zoom');
+        const customZoom = document.getElementById('custom-zoom-controls');
+        if (zoom && customZoom) {
+          customZoom.appendChild(zoom);
+        }
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.neighborhood-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          var name = card.getAttribute('data-name');
+          alert('Neighborhood: ' + name);
+        });
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.right-panel-action-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var tab = btn.getAttribute('data-tab');
+          alert(tab + ' tab clicked!');
+        });
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var panel = document.getElementById('right-panel');
+      if (panel) {
+        panel.addEventListener('wheel', function(e) {
+          e.preventDefault();
+        }, { passive: false });
+        panel.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+        }, { passive: false });
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Show right panel on card click
+      document.querySelectorAll('.neighborhood-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          var rightPanel = document.getElementById('right-panel');
+          if (rightPanel) {
+            rightPanel.classList.add('mobile-visible');
+            rightPanel.style.display = '';
+          }
+        });
+      });
+      // Hide right panel on close (X) click
+      var closeBtn = document.querySelector('#right-panel .close-btn, #right-panel .close, #right-panel .panel-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+          var rightPanel = document.getElementById('right-panel');
+          if (rightPanel) {
+            rightPanel.classList.remove('mobile-visible');
+            rightPanel.style.display = 'none';
+          }
+        });
+      }
+      // Hide panel by default on mobile
+      var rightPanel = document.getElementById('right-panel');
+      if (window.innerWidth <= 768 && rightPanel) {
+        rightPanel.classList.remove('mobile-visible');
+        rightPanel.style.display = 'none';
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var mobileCloseBtn = document.querySelector('#right-panel .mobile-close-btn');
+      if (mobileCloseBtn) {
+        mobileCloseBtn.addEventListener('click', function() {
+          var rightPanel = document.getElementById('right-panel');
+          if (rightPanel) {
+            rightPanel.classList.remove('mobile-visible');
+            rightPanel.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+  <script>
+    // Hamburger menu toggle for mobile
+    const hamburgerBtn = document.querySelector('.hamburger-menu');
+    const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+    const mobileNavClose = document.querySelector('.mobile-nav-close');
+    hamburgerBtn.addEventListener('click', function() {
+      mobileNavOverlay.style.display = 'flex';
+      setTimeout(() => mobileNavOverlay.classList.add('open'), 10);
+    });
+    mobileNavClose.addEventListener('click', function() {
+      mobileNavOverlay.classList.remove('open');
+      setTimeout(() => mobileNavOverlay.style.display = 'none', 300);
+    });
+  </script>
+</body>
+</html> 

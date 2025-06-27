@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitfinder Search - John McCarthy</title>
+  <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Header Panel -->
+  <header class="header-panel">
+    <div class="header-inner" style="display: flex; align-items: center; width: 100%;">
+      <div class="logo" style="margin-left:5px;"><img src="images/bitfinder-search-logo.png" alt="Bitfinder Search Logo" style="height:32px; vertical-align:middle; margin-right:12px;"></div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#" class="active">Search</a></li>
+          <li><a href="#">Images</a></li>
+          <li><a href="maps.html">Maps</a></li>
+          <li><a href="#">Videos</a></li>
+          <li><a href="#"><span>Shorts</span><span class="chevron">›</span></a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <div class="user-info">
+          <div class="user-text">
+            <span class="username">Username</span>
+            <span class="user-id">#USER24156</span>
+          </div>
+          <span class="avatar"></span>
+        </div>
+      </div>
+    </div>
+    <button class="hamburger-menu" aria-label="Open menu" style="display:none; background:none; border:none; cursor:pointer; margin-left:16px;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#757575" stroke-width="3" stroke-linecap="round">
+        <line x1="7" y1="10" x2="25" y2="10" />
+        <line x1="7" y1="16" x2="25" y2="16" />
+        <line x1="7" y1="22" x2="25" y2="22" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-nav-overlay" style="display:none;">
+    <div class="mobile-nav-menu">
+      <div class="user-info" style="margin-bottom:32px; justify-content:center;">
+        <div class="user-text">
+          <span class="username">Username</span>
+          <span class="user-id">#USER24156</span>
+        </div>
+        <span class="avatar"></span>
+      </div>
+      <button class="mobile-nav-close" aria-label="Close menu">
+        <svg width="28" height="28" viewBox="0 0 32 32" stroke="#757575" stroke-width="3.5" stroke-linecap="round">
+          <line x1="8" y1="8" x2="24" y2="24" />
+          <line x1="24" y1="8" x2="8" y2="24" />
+        </svg>
+      </button>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#" class="active">Search</a></li>
+        <li><a href="#">Images</a></li>
+        <li><a href="maps.html">Maps</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#"><span>Shorts</span><span class="chevron">›</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Search Bar (above profile section) -->
+      <div class="main-search-bar">
+        <input type="text" value="john mccarthy" aria-label="Main search" />
+      </div>
+
+      <!-- Profile Section -->
+      <section class="profile-section">
+        <p class="found-text">Found him. John McCarthy—pioneer of AI.</p>
+        <div class="profile-grid">
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-title">Born:</div>
+              <div class="info-main">September 4, 1927</div>
+              <div class="info-sub">Boston, Massachusetts, United States</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">Died:</div>
+              <div class="info-main">October 24, 2011 (86)</div>
+              <div class="info-sub">Stanford, California, United States</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">Education:</div>
+              <div class="info-main">Princeton University, California Institute of Technology</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">Awards:</div>
+              <div class="info-main">Turing Award, IJCAI Award for Research Excellence</div>
+            </div>
+          </div>
+          <div class="image-cards">
+            <img src="https://media.wired.com/photos/59327c782a990b06268ab0b1/master/w_542,h_506,c_limit/john-mccarthy.png" alt="John McCarthy photo 1" class="profile-image-card small-image top-left">
+            <img src="https://www.aii.et/wp-content/uploads/2024/07/John-McCarthyee.jpeg" alt="John McCarthy at blackboard" class="profile-image-card small-image bottom-left">
+            <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202409/john-mccarthy-043536139-3x4.jpeg?VersionId=DLpjeXNCXG03D80sxosUb2CoVdGT0MHp" alt="John McCarthy photo 2" class="profile-image-card large-image">
+          </div>
+        </div>
+        <ul class="profile-highlights">
+          <li>Invented Lisp, a programming language still used in symbolic AI</li>
+          <li>Pushed time-sharing systems, making modern OS and cloud computing possible</li>
+          <li>Championed the idea of machines that reason, learn, and understand language</li>
+          <li>Won the Turing Award (1971), AI's top honor</li>
+        </ul>
+        <p class="profile-summary">He taught at Stanford, believed in logic-based AI, and helped shape everything we now call "thinking machines."</p>
+        <p class="prompt-text">I've searched profiles like his before—McCarthy always shows up when tracing AI's roots. Want to zoom in on anything?</p>
+        <div class="profile-action-buttons profile-tabs">
+          <nav class="profile-tabs-nav">
+            <button class="profile-tab active">Early Life!</button>
+            <button class="profile-tab">Origins of AI</button>
+            <button class="profile-tab chat-gradient">
+              <span class="chat-gradient-inner">
+                <img src="https://cdn-icons-png.flaticon.com/512/2950/2950714.png" alt="Chat Icon" class="chat-icon small-chat-icon" style="width: 12px; height: 12px; margin-right: 5px; display: flex; align-items: center;" />
+                Continue Chat
+              </span>
+            </button>
+          </nav>
+          <div class="chat-action-icons" style="margin-left: 240px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22V10M7 10l5-7a2 2 0 0 1 3.3 2.2L14 10h5.5a1.5 1.5 0 0 1 1.5 1.5v1.5a1.5 1.5 0 0 1-1.5 1.5H17l-1.5 7H7z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2v12M17 14l-5 7a2 2 0 0 1-3.3-2.2L10 14H4.5A1.5 1.5 0 0 1 3 12.5V11A1.5 1.5 0 0 1 4.5 9.5H7l1.5-7H17z"/></svg>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-K0uQgALxKwbrjCiCQq3CuH4zYesIRqvATA&s" alt="Refresh Icon" style="width: 20px; height: 20px; opacity: 0.45; vertical-align: middle; margin-top: 0px; filter: grayscale(1) brightness(1.5);" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search Results Section -->
+      <section class="search-results" id="search-results-section">
+        <!-- Search results will be rendered here by JS -->
+      </section>
+      <div class="show-more-btn-container">
+        <button class="show-more-btn" id="show-more-btn">Show More</button>
+      </div>
+      <!-- People Also Search For Section -->
+      <section class="people-also-search-for">
+        <h3>People also search for</h3>
+        <div class="search-history-list">
+          <div class="search-history-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYuvDCJfn4oPRRAtXnOEFcNwsbyyflZHOKgQ&s" class="favicon" alt="Reddit icon">
+            <div class="search-history-content">
+              <span class="search-history-title">What comes after LLMs? : r/singularity</span>
+              <span class="search-history-meta">Reddit • 60+ comments 1 year ago</span>
+              <span class="search-history-snippet">A dozen different bets. Some groups will try brand new architectures...</span>
+            </div>
+          </div>
+          <div class="search-history-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174880.png" class="favicon" alt="Wikipedia icon">
+            <div class="search-history-content">
+              <span class="search-history-title">John McCarthy (computer scientist) - Wikipedia</span>
+              <span class="search-history-meta">Wikipedia • Jan 1, 2024</span>
+              <span class="search-history-snippet">Biography, major contributions, and influence on computer science...</span>
+            </div>
+          </div>
+          <div class="search-history-item">
+            <img src="https://identity.stanford.edu/wp-content/uploads/sites/3/2020/07/SU_SealColor_web3.png" class="favicon" alt="Stanford icon">
+            <div class="search-history-content">
+              <span class="search-history-title">Stanford Remembers John McCarthy</span>
+              <span class="search-history-meta">Stanford • Jan 1, 2024</span>
+              <span class="search-history-snippet">Stanford's tribute to John McCarthy, highlighting his decades of teaching...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Keywords Section -->
+      <section class="keywords-section">
+        <h3>Keywords: What users searched for</h3>
+        <div class="keywords-list">
+          <span class="keyword">john mccarthy ai</span>
+          <span class="keyword">lisp inventor</span>
+          <span class="keyword">artificial intelligence pioneers</span>
+          <span class="keyword">stanford ai history</span>
+          <span class="keyword">turing award winners</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Right Column: Icons + Panel as a stack -->
+    <div class="right-panel-stack" style="display: flex; flex-direction: column; align-items: flex-end;">
+      <div class="right-panel-icons" style="display: flex; justify-content: flex-end; gap: 32px; margin-bottom: 18px; width: 100%;">
+        <img src="https://img.favpng.com/2/24/3/computer-icons-share-icon-png-favpng-5mgxT91uxJGJPxSREQknbBKXz.jpg" alt="Share" style="width: 15px; height: 15px; opacity: 0.7; margin-top: 7px; cursor: pointer;" id="share-btn" />
+        <img src="https://icons.veryicon.com/png/o/business/financial-financial-standard-icon-library/adjust-27.png" alt="Tools" style="width: 32px; height: 32px; opacity: 0.7; margin-top: -2px;" />
+      </div>
+      <aside class="right-panel">
+        <section class="might-interest-you">
+          <div class="panel-header">
+            <h2>Might Interest You</h2>
+            <button class="icon-btn">…</button>
+          </div>
+          
+          <div class="panel-section">
+            <div class="panel-section-header">
+              <h3>Books</h3>
+              <a href="#" class="show-more">Show More</a>
+            </div>
+            <div class="thumbnail-grid">
+              <div class="thumbnail-item"><img src="https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4615-1567-8" alt="Defending AI Research book cover"><p>Defending AI Research</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Ogab7woSGt4p9vyf25QQR6wnuHOWD1tkcQ&s" alt="Formalizing Common Sense book cover"><p>Formalizing Common S...</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://media.springernature.com/full/springer-static/cover-hires/book/978-94-009-2448-2" alt="Logic and Artificial Intelligence book cover"><p>Logic and Artificial Int...</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt8O15xPV7oAmB6dNRKn5j4CZ2Wui0dOnAVA&s" alt="Logic-Based Artificial Intelligence book cover"><p>Logic-Based Artificial Int...</p><span>1996</span></div>
+            </div>
+          </div>
+
+          <div class="panel-section">
+             <div class="panel-section-header">
+              <h3>Movies</h3>
+              <a href="#" class="show-more">Show More</a>
+            </div>
+             <div class="thumbnail-grid">
+              <div class="thumbnail-item"><img src="https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4615-1567-8" alt="Defending AI Research movie cover"><p>Defending AI Research</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Ogab7woSGt4p9vyf25QQR6wnuHOWD1tkcQ&s" alt="Formalizing Common Sense movie cover"><p>Formalizing Common S...</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://media.springernature.com/full/springer-static/cover-hires/book/978-94-009-2448-2" alt="Logic and Artificial Intelligence movie cover"><p>Logic and Artificial Int...</p><span>1996</span></div>
+              <div class="thumbnail-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt8O15xPV7oAmB6dNRKn5j4CZ2Wui0dOnAVA&s" alt="Logic-Based Artificial Intelligence movie cover"><p>Logic-Based Artificial Int...</p><span>1996</span></div>
+            </div>
+          </div>
+
+          <div class="panel-section">
+             <div class="panel-section-header">
+              <h3>Related</h3>
+               <a href="#" class="show-more">Show More</a>
+            </div>
+            <div class="related-list">
+              <div class="related-item"><img src="https://i0.wp.com/www.nationalreview.com/wp-content/uploads/2016/01/marvin-minsky-creative-economic-mind-b.jpg?fit=920%2C537&ssl=1" alt="Marvin Minsky"><p>Marvin Minsky</p></div>
+              <div class="related-item"><img src="https://cdn.britannica.com/81/191581-050-8C0A8CD3/Alan-Turing.jpg?w=400&h=300&c=crop" alt="Alan Turing"><p>Alan Turing</p></div>
+              <div class="related-item"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3PZhBG698fAjO1PVM8GdUxfRfZ03-Oiz1h2jvINUerDkqqF4r_IX-yt3gpfYxLAIUGCiIGAcwda1y21TeHbB3qnR0XZ-J8pSiRAloWwHMckqDjz4mz0sQR5mM8pxBZBoRcuNKJsyE1lQ/s320/Professor+Raj+Reddy.jpg" alt="Raj Reddy"><p>Raj Reddy</p></div>
+              <div class="related-item"><img src="https://amturing.acm.org/images/backus-1.jpg" alt="John Backus"><p>John Backus</p></div>
+            </div>
+            <div class="filter-tags">
+              <button class="chip-btn">Computer Scientist</button>
+              <button class="chip-btn">Referee</button>
+              <button class="chip-btn">›</button>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer-section custom-footer">
+    <div class="footer-pill footer-tabs desktop-only">
+      <img src="https://www.shutterstock.com/image-vector/website-pages-line-icon-tabs-260nw-2094186058.jpg" alt="Tabs icon" class="footer-icon" />
+      <span>Tabs</span>
+    </div>
+    <span class="footer-chevron desktop-only">&#x2039;</span>
+    <div class="footer-pill footer-center">
+      <input type="text" class="footer-center-text" placeholder="Get Curious" title="Footer search input" />
+    </div>
+    <span class="footer-chevron desktop-only">&#x203A;</span>
+    <div class="footer-pill footer-adam desktop-only">
+      <img src="https://cdn-icons-png.flaticon.com/512/2950/2950714.png" alt="Adam chat icon" class="footer-icon" />
+      <span>Adam</span>
+    </div>
+  </footer>
+
+  <div id="share-modal" class="share-modal" style="display:none;">
+    <div class="share-modal-content">
+      <button class="share-modal-close" id="close-share-modal">&times;</button>
+      <h2>Share this page</h2>
+      <div class="share-buttons">
+        <a href="#" class="share-btn whatsapp" target="_blank">WhatsApp</a>
+        <a href="#" class="share-btn facebook" target="_blank">Facebook</a>
+        <a href="#" class="share-btn telegram" target="_blank">Telegram</a>
+        <a href="#" class="share-btn twitter" target="_blank">Twitter</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const footer = document.querySelector('.footer-section.custom-footer');
+      if (window.scrollY > 0) {
+        footer.classList.add('footer-visible');
+      } else {
+        footer.classList.remove('footer-visible');
+      }
+    });
+
+    // Share Modal Functionality
+    const shareBtn = document.getElementById('share-btn');
+    const shareModal = document.getElementById('share-modal');
+    const closeShareModal = document.getElementById('close-share-modal');
+    const shareLinks = document.querySelectorAll('.share-btn');
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(document.title);
+
+    shareBtn.addEventListener('click', function() {
+      shareModal.style.display = 'flex';
+    });
+    closeShareModal.addEventListener('click', function() {
+      shareModal.style.display = 'none';
+    });
+    window.addEventListener('click', function(e) {
+      if (e.target === shareModal) {
+        shareModal.style.display = 'none';
+      }
+    });
+    document.querySelector('.share-btn.whatsapp').setAttribute('href', `https://wa.me/?text=${shareText}%20${shareUrl}`);
+    document.querySelector('.share-btn.facebook').setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`);
+    document.querySelector('.share-btn.telegram').setAttribute('href', `https://t.me/share/url?url=${shareUrl}&text=${shareText}`);
+    document.querySelector('.share-btn.twitter').setAttribute('href', `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`);
+
+    // Clear main search bar input on focus
+    const mainSearchInput = document.querySelector('.main-search-bar input');
+    mainSearchInput.addEventListener('focus', function() {
+      this.value = '';
+    });
+
+    // --- Progressive Search Results Loading ---
+    const allResults = [
+      {
+        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYuvDCJfn4oPRRAtXnOEFcNwsbyyflZHOKgQ&s",
+        source: "Reddit",
+        meta: "60+ comments 1 year ago",
+        title: "What comes after LLMs? : r/singularity",
+        desc: "What comes next is a dozen different bets. Some groups will try brand new architectures, that diverge from Transformers or are some hybrid approach..."
+      },
+      {
+        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-bMdODyBY4iFhOaJqMOiIHqI9T6Nm4DfMxgZLoWkJ7ZS9Ij-jsDRNXkDxObYKNVDexZE&usqp=CAU",
+        source: "Forbes",
+        meta: "https://www.forbes.com Jan 23, 2024",
+        title: "The Next Leap In AI: From Large Language M...",
+        desc: "This article explores how the LLM to LWM transformation may unfold, marking a natural progression in the AI journey."
+      },
+      {
+        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTljzm-KBc840BjzOkV-hsOB1Ztyebohouu8g&s",
+        source: "Medium - Research Graph",
+        meta: "60+ likes 1 year ago",
+        title: "RAG: The next big thing after LLMs?",
+        desc: "RAG stands for Retrieval-Augmented Generation. The idea behind RAG is to augment LLMs with a latent knowledge retriever, allowing the model to retrieve..."
+      },
+      {
+        icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png",
+        source: "Google",
+        meta: "https://www.google.com Jan 1, 2024",
+        title: "Google AI Blog: John McCarthy's Legacy",
+        desc: "Google's official blog post on John McCarthy's impact on artificial intelligence, including his work on Lisp and time-sharing systems..."
+      },
+      {
+        icon: "https://cdn-icons-png.flaticon.com/512/174/174880.png",
+        source: "Wikipedia",
+        meta: "https://en.wikipedia.org Jan 1, 2024",
+        title: "John McCarthy (computer scientist) - Wikipedia",
+        desc: "Wikipedia entry for John McCarthy, covering his biography, major contributions, and influence on the field of computer science..."
+      },
+      {
+        icon: "https://identity.stanford.edu/wp-content/uploads/sites/3/2020/07/SU_SealColor_web3.png",
+        source: "Stanford",
+        meta: "https://www.stanford.edu Jan 1, 2024",
+        title: "Stanford Remembers John McCarthy",
+        desc: "Stanford University's tribute to John McCarthy, highlighting his decades of teaching and research in artificial intelligence..."
+      },
+      {
+        icon: "https://identity.stanford.edu/wp-content/uploads/sites/3/2020/07/SU_SealColor_web3.png",
+        source: "IEEE",
+        meta: "https://spectrum.ieee.org Jan 1, 2024",
+        title: "IEEE Spectrum: Remembering John McCarthy",
+        desc: "An in-depth article from IEEE Spectrum on John McCarthy's role in shaping the field of artificial intelligence..."
+      }
+    ];
+
+    let shownCount = 0;
+    const resultsPerPage = 4;
+    const resultsSection = document.getElementById('search-results-section');
+    const showMoreBtn = document.getElementById('show-more-btn');
+
+    function renderResults() {
+      let html = '';
+      for (let i = 0; i < shownCount; i++) {
+        if (!allResults[i]) break;
+        html += `<article class="search-result">
+          <div class="result-header">
+            <img src="${allResults[i].icon}" class="favicon" alt="${allResults[i].source} icon">
+            <span class="source">${allResults[i].source}</span>
+            <span class="meta-text">${allResults[i].meta}</span>
+          </div>
+          <h2>${allResults[i].title}</h2>
+          <p>${allResults[i].desc}</p>
+        </article>`;
+      }
+      resultsSection.innerHTML = html;
+      if (shownCount >= allResults.length) {
+        showMoreBtn.style.display = 'none';
+      } else {
+        showMoreBtn.style.display = '';
+      }
+    }
+
+    function showMoreResults() {
+      shownCount += resultsPerPage;
+      renderResults();
+    }
+
+    // Initial load
+    shownCount = resultsPerPage;
+    renderResults();
+    showMoreBtn.addEventListener('click', showMoreResults);
+
+    // Hamburger menu toggle for mobile
+    const hamburgerBtn = document.querySelector('.hamburger-menu');
+    const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+    const mobileNavClose = document.querySelector('.mobile-nav-close');
+    hamburgerBtn.addEventListener('click', function() {
+      mobileNavOverlay.style.display = 'flex';
+      setTimeout(() => mobileNavOverlay.classList.add('open'), 10);
+    });
+    mobileNavClose.addEventListener('click', function() {
+      mobileNavOverlay.classList.remove('open');
+      setTimeout(() => mobileNavOverlay.style.display = 'none', 300);
+    });
+  </script>
+</body>
+</html> 
