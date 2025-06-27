@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs UI Clone</title>
+  <link href="https://fonts.cdnfonts.com/css/satoshi?styles=300,400,500,700" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Satoshi', sans-serif !important;
+      color: #222;
+      overflow-x: hidden;
+    }
+    .tabs-container {
+      width: 420px;
+      background: rgba(246,246,246,0.92);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px 0 rgba(30,60,120,0.13);
+      margin: 32px auto 0 auto;
+      padding: 0 0 8px 0;
+      overflow: hidden;
+      position: relative;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      height: 800px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 auto;
+      z-index: 100;
+      transition: transform 0.4s cubic-bezier(0.4,0.2,0.2,1), opacity 0.3s;
+    }
+    .tabs-container.closed {
+      transform: translate(-120%, -50%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .tabs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      margin: 35px 0 0 0;
+      background: none;
+      border: none;
+    }
+    .tabs-title {
+      font-size: 1.3rem;
+      font-weight: 200;
+      color: #888;
+      line-height: 1;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+    .tabs-close {
+      min-width: 48px;
+      height: 28px;
+      border-radius: 14px;
+      background: #fff;
+      border: none;
+      box-shadow: 0 4px 16px rgba(30,60,120,0.08);
+      font-size: 1.3rem;
+      color: #bbb;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      margin-right: 0;
+      margin-left: 0;
+      padding: 0;
+    }
+    .tabs-close:hover {
+      background: #f5f5f5;
+    }
+    .music-player {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin: 34px 38px 0 38px;
+      justify-content: flex-start;
+    }
+    .album-art {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      box-shadow: 0 0 8px 2px #ffe9b3, 0 1px 4px rgba(30,60,120,0.08);
+      object-fit: cover;
+      background: #fff;
+      flex-shrink: 0;
+      display: block;
+    }
+    .music-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .song-title {
+      font-size: 1.18rem;
+      font-weight: 300;
+      color: #222;
+      margin-bottom: 2px;
+      letter-spacing: 0.01em;
+      font-family: 'Satoshi', sans-serif !important;
+    }
+    .artist {
+      font-size: 0.98rem;
+      color: #888;
+      font-weight: 300;
+      font-family: 'Satoshi', sans-serif !important;
+    }
+    .music-controls {
+      display: flex;
+      gap: 18px;
+      margin-top: 10px;
+      align-items: center;
+    }
+    .music-btn {
+      min-width: 48px;
+      height: 28px;
+      border-radius: 14px;
+      background: #fff;
+      border: none;
+      box-shadow: 0 4px 16px rgba(30,60,120,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: #888;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+      padding: 0 12px;
+      margin: 0;
+    }
+    .music-btn.active, .music-btn:hover {
+      background: #fafbfc;
+      color: #222;
+      box-shadow: 0 6px 24px rgba(30,60,120,0.13);
+    }
+    .music-btn:hover {
+      background: #fff;
+      color: #ffb347;
+      border-color: #ffb347;
+      box-shadow: 0 0 0 6px #ffb34733, 0 6px 24px rgba(255,179,71,0.13);
+    }
+    .music-btn:focus {
+      outline: none;
+      border-color: #ffb347;
+      box-shadow: 0 0 0 6px #ffb34733, 0 6px 24px rgba(255,179,71,0.13);
+    }
+    .divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #f7f7fa 0%, #eaeaea 100%);
+      margin: 32px 0 0 0;
+      border: none;
+      opacity: 0.7;
+    }
+    .tabs-filters {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin: 11px 0 0 0;
+      background: #fff;
+      padding: 18px 0 14px 0;
+      border-bottom: 1.5px solid #f3f3f3;
+      align-items: center;
+    }
+    .filter-btn {
+      background: #fff;
+      border: 1px solid #ececec;
+      border-radius: 22px;
+      padding: 0 16px;
+      font-size: 0.98rem;
+      color: #888;
+      font-weight: 300;
+      font-family: 'Satoshi', sans-serif !important;
+      box-shadow: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      letter-spacing: 0.01em;
+      outline: none;
+      min-width: 70px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .filter-btn.active, .filter-btn:focus {
+      background: #fff;
+      color: #222;
+      border-color: #b0b6be;
+      font-weight: 600;
+      z-index: 2;
+    }
+    .tabs-stack {
+      margin: 38px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      min-height: 600px;
+      max-height: 800px;
+      perspective: 1200px;
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      scrollbar-color: #e0e0e0 #fafafa;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 0;
+      width: auto;
+      box-sizing: border-box;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .tabs-stack::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+    .tabs-stack::-webkit-scrollbar-thumb {
+      background: #e0e0e0;
+      border-radius: 8px;
+    }
+    .tabs-stack .tab-card {
+      margin-bottom: 0;
+      position: relative;
+    }
+    .tabs-stack .tab-card:not(:first-child) {
+      margin-top: -44px;
+    }
+    .tabs-stack .tab-card {
+      z-index: auto;
+    }
+    .tabs-stack .tab-card.tab-main {
+      z-index: 10;
+    }
+    .tabs-stack .tab-card.tab-fade9 { z-index: 9; }
+    .tabs-stack .tab-card.tab-fade8 { z-index: 8; }
+    .tabs-stack .tab-card.tab-fade7 { z-index: 7; }
+    .tabs-stack .tab-card.tab-fade6 { z-index: 6; }
+    .tabs-stack .tab-card.tab-fade5 { z-index: 5; }
+    .tabs-stack .tab-card.tab-fade4 { z-index: 4; }
+    .tabs-stack .tab-card.tab-fade3 { z-index: 3; }
+    .tabs-stack .tab-card.tab-fade2 { z-index: 2; }
+    .tabs-stack .tab-card.tab-fade1 { z-index: 1; }
+    .tab-card {
+      width: 340px;
+      background: none;
+      border: none !important;
+      box-shadow: none !important;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 1px;
+      padding: 0;
+      position: relative;
+      z-index: 1;
+      pointer-events: auto;
+      transition: box-shadow 0.18s, opacity 0.18s, transform 0.18s;
+    }
+    .tab-card:not(:last-child)::after {
+      content: '';
+      display: none !important;
+      height: 4px;
+      width: 80%;
+      margin: 0 auto;
+      background: linear-gradient(90deg, #e0e0e0 0%, #fafafa 100%);
+      border-radius: 2px;
+      box-shadow: 0 1px 4px rgba(30,60,120,0.07);
+      position: relative;
+      top: 0;
+    }
+    .tab-card .tab-header,
+    .tab-card .tab-content {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .tab-header {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 15px 15px 0 0;
+      border: none !important;
+      box-shadow: none !important;
+      height: 44px;
+      padding: 0 18px 0 18px;
+      font-size: 1.05rem;
+      color: #444;
+      font-weight: 500;
+      position: relative;
+    }
+    .tab-favicon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #f2f2f2;
+      margin-right: 14px;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    .tab-favicon img {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0.85;
+      filter: drop-shadow(0 1px 2px rgba(120,120,120,0.07));
+    }
+    .tab-title {
+      flex: 1;
+      color: #444;
+      font-size: 1.05rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 0;
+      letter-spacing: 0.01em;
+    }
+    .tab-close {
+      min-width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      background: #fff;
+      border: none !important;
+      box-shadow: none !important;
+      color: #bbb;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+      padding: 0;
+    }
+    .tab-close:hover {
+      background: #f2f2f2;
+      color: #ff5e62;
+      border-color: #888;
+      box-shadow: 0 4px 18px 0 rgba(30,60,120,0.18);
+    }
+    .tab-close svg {
+      width: 13px;
+      height: 13px;
+      stroke: #bbb;
+      stroke-width: 2.2;
+      transition: stroke 0.15s;
+    }
+    .tab-close:hover svg {
+      stroke: #ff5e62;
+    }
+    .tab-content {
+      background: #f5f5f5;
+      border-radius: 0;
+      border: none;
+      min-height: 54px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px 0 rgba(180,200,220,0.07);
+    }
+    .tab-hidden {
+      display: none !important;
+    }
+    /* Compact, symmetrical upward tapering effect for stacked tabs */
+    .tab-card.tab-fade1 { width: 250px; margin-left: 32px; margin-right: 32px; opacity: 0.18; }
+    .tab-card.tab-fade2 { width: 260px; margin-left: 28px; margin-right: 28px; opacity: 0.28; }
+    .tab-card.tab-fade3 { width: 270px; margin-left: 24px; margin-right: 24px; opacity: 0.38; }
+    .tab-card.tab-fade4 { width: 280px; margin-left: 20px; margin-right: 20px; opacity: 0.48; }
+    .tab-card.tab-fade5 { width: 290px; margin-left: 16px; margin-right: 16px; opacity: 0.58; }
+    .tab-card.tab-fade6 { width: 300px; margin-left: 12px; margin-right: 12px; opacity: 0.68; }
+    .tab-card.tab-fade7 { width: 310px; margin-left: 8px; margin-right: 8px; opacity: 0.78; }
+    .tab-card.tab-fade8 { width: 320px; margin-left: 4px; margin-right: 4px; opacity: 0.88; }
+    .tab-card.tab-fade9 { width: 330px; margin-left: 0; margin-right: 0; opacity: 0.96; }
+    .tab-card.tab-main  { width: 340px; margin-left: 0; margin-right: 0; opacity: 1; }
+    .tabs-gradient-bottom {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 120px;
+      pointer-events: none;
+      background: linear-gradient(0deg, #fff 80%, rgba(255,255,255,0.01) 100%);
+      z-index: 10;
+    }
+    .tabs-stack .tab-card:last-child {
+      width: unset !important;
+      margin-left: unset !important;
+    }
+    
+    /* Enhanced Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .tabs-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        margin: 0 !important;
+        position: fixed !important;
+        z-index: 1000 !important;
+      }
+      
+      .tabs-container.closed {
+        transform: translateX(-100%) !important;
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .tabs-header {
+        padding: 0 12px;
+        height: 56px;
+        margin: 12px 0 0 0;
+        background: #fff;
+        border-bottom: 1.5px solid #f3f3f3;
+      }
+      
+      .tabs-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #222;
+      }
+      
+      .tabs-close {
+        min-width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        background: #f7f7f7;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      }
+      
+      .music-player {
+        margin: 18px 10px 0 10px;
+        padding: 16px 12px;
+        background: #fff;
+        border-radius: 18px;
+        margin: 20px 16px 0 16px;
+        gap: 16px;
+        padding: 16px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      
+      .album-art {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+      }
+      
+      .song-title {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      
+      .artist {
+        font-size: 0.9rem;
+      }
+      
+      .music-controls {
+        gap: 12px;
+        margin-top: 8px;
+      }
+      
+      .music-btn {
+        min-width: 44px;
+        height: 44px;
+      border-radius: 50%;
+        font-size: 1.2rem;
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      .music-btn img {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      
+      .divider {
+        margin: 20px 0 0 0;
+      }
+      
+      .tabs-filters {
+        gap: 12px;
+        margin: 8px 0 0 0;
+        padding: 16px 0 12px 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      
+      .filter-btn {
+        min-width: 80px;
+        height: 36px;
+        font-size: 0.9rem;
+        padding: 0 12px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(0,0,0,0.1);
+      }
+      
+      .tabs-stack {
+        margin: 20px 0 0 0;
+        min-height: calc(100vh - 300px);
+        max-height: calc(100vh - 300px);
+        padding: 0 16px;
+      }
+      
+      .tab-card {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      .tab-card.tab-fade1,
+      .tab-card.tab-fade2,
+      .tab-card.tab-fade3,
+      .tab-card.tab-fade4,
+      .tab-card.tab-fade5,
+      .tab-card.tab-fade6,
+      .tab-card.tab-fade7,
+      .tab-card.tab-fade8,
+      .tab-card.tab-fade9,
+      .tab-card.tab-main {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        opacity: 1 !important;
+      }
+      
+      .tab-header {
+        height: 52px;
+        padding: 0 16px;
+        border-radius: 12px 12px 0 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      
+      .tab-favicon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+      }
+      
+      .tab-favicon img {
+        width: 14px;
+        height: 14px;
+      }
+      
+      .tab-title {
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+      
+      .tab-close {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        margin-left: 8px;
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(0,0,0,0.1);
+      }
+      
+      .tab-close svg {
+        width: 12px;
+        height: 12px;
+      }
+      
+      .tab-content {
+        min-height: 60px;
+        background: rgba(245,245,245,0.8);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+      
+      /* Mobile-specific sections */
+      .downloads-section,
+      .bookmarks-section,
+      .history-section {
+        padding: 20px 0 0 0;
+        height: calc(100vh - 300px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .downloads-list,
+      .bookmarks-list,
+      .history-list {
+        padding: 0 16px 20px 16px;
+        gap: 12px;
+      }
+      
+      .download-item,
+      .bookmark-item,
+      .history-item {
+        padding: 16px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(0,0,0,0.1);
+      }
+      
+      .download-name,
+      .bookmark-item a,
+      .history-item a {
+        font-size: 0.95rem;
+        font-weight: 500;
+        max-width: 200px;
+      }
+      
+      .download-meta,
+      .history-meta {
+        font-size: 0.85rem;
+      }
+      
+      .show-tabs-btn {
+        margin: 16px 0 16px 16px !important;
+        font-size: 0.95rem !important;
+        padding: 12px 16px !important;
+        background: rgba(255,255,255,0.9) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+      }
+      
+      .clear-history-btn {
+        margin: 0 0 16px 16px !important;
+        padding: 12px 20px !important;
+        border-radius: 12px !important;
+        font-size: 0.9rem !important;
+        background: rgba(255,255,255,0.9) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+      }
+      
+      .remove-bookmark,
+      .remove-history {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(0,0,0,0.1);
+        font-size: 1rem;
+      }
+      
+      .tabs-gradient-bottom {
+        height: 80px;
+      }
+      
+      /* Mobile open button */
+      .open-tabs-panel-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 2000;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        border: 1px solid rgba(0,0,0,0.1);
+        display: none;
+      }
+      
+      .open-tabs-panel-btn img {
+        width: 24px !important;
+        height: 24px !important;
+      }
+    }
+    
+    /* Small mobile adjustments */
+    @media (max-width: 480px) {
+      .tabs-header {
+        padding: 0 12px;
+        height: 56px;
+        margin: 16px 0 0 0;
+      }
+      
+      .tabs-title {
+        font-size: 1rem;
+      }
+      
+      .tabs-close {
+        min-width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+      }
+      
+      .music-player {
+        margin: 16px 12px 0 12px;
+        padding: 12px;
+        gap: 12px;
+      }
+      
+      .album-art {
+        width: 48px;
+        height: 48px;
+      }
+      
+      .song-title {
+        font-size: 0.9rem;
+      }
+      
+      .artist {
+        font-size: 0.8rem;
+      }
+      
+      .music-controls {
+        gap: 8px;
+        margin-top: 6px;
+      }
+      
+      .music-btn {
+        min-width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+      }
+      
+      .music-btn img {
+        width: 18px !important;
+        height: 18px !important;
+      }
+      
+      .tabs-filters {
+        gap: 8px;
+        padding: 12px 0 8px 0;
+      }
+      
+      .filter-btn {
+        min-width: 70px;
+        height: 32px;
+        font-size: 0.85rem;
+        padding: 0 10px;
+      }
+      
+      .tabs-stack {
+        margin: 16px 0 0 0;
+        padding: 0 12px;
+        min-height: calc(100vh - 280px);
+        max-height: calc(100vh - 280px);
+      }
+      
+      .tab-header {
+        height: 48px;
+        padding: 0 12px;
+      }
+      
+      .tab-favicon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+      
+      .tab-favicon img {
+        width: 12px;
+        height: 12px;
+      }
+      
+      .tab-title {
+        font-size: 0.9rem;
+      }
+      
+      .tab-close {
+        min-width: 32px;
+        height: 32px;
+        margin-left: 6px;
+      }
+      
+      .tab-close svg {
+        width: 10px;
+        height: 10px;
+      }
+      
+      .downloads-section,
+      .bookmarks-section,
+      .history-section {
+        padding: 16px 0 0 0;
+        height: calc(100vh - 280px);
+      }
+      
+      .downloads-list,
+      .bookmarks-list,
+      .history-list {
+        padding: 0 12px 16px 12px;
+        gap: 10px;
+      }
+      
+      .download-item,
+      .bookmark-item,
+      .history-item {
+        padding: 12px;
+      }
+      
+      .download-name,
+      .bookmark-item a,
+      .history-item a {
+        font-size: 0.9rem;
+        max-width: 180px;
+      }
+      
+      .download-meta,
+      .history-meta {
+        font-size: 0.8rem;
+      }
+      
+      .show-tabs-btn {
+        margin: 12px 0 12px 12px !important;
+        font-size: 0.9rem !important;
+        padding: 10px 14px !important;
+      }
+      
+      .clear-history-btn {
+        margin: 0 0 12px 12px !important;
+        padding: 10px 16px !important;
+        font-size: 0.85rem !important;
+      }
+      
+      .remove-bookmark,
+      .remove-history {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+      }
+      
+      .open-tabs-panel-btn {
+        top: 16px;
+        left: 16px;
+        width: 48px;
+        height: 48px;
+      }
+      
+      .open-tabs-panel-btn img {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+    
+    /* Landscape mobile adjustments */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .tabs-container {
+        height: 100vh !important;
+      }
+      
+      .tabs-header {
+        height: 50px;
+        margin: 12px 0 0 0;
+      }
+      
+      .music-player {
+        margin: 12px 16px 0 16px;
+        padding: 12px;
+      }
+      
+      .album-art {
+        width: 48px;
+        height: 48px;
+      }
+      
+      .song-title {
+        font-size: 0.9rem;
+      }
+      
+      .artist {
+        font-size: 0.8rem;
+      }
+      
+      .music-controls {
+        gap: 8px;
+        margin-top: 6px;
+      }
+      
+      .music-btn {
+        min-width: 36px;
+        height: 36px;
+      }
+      
+      .tabs-stack {
+        margin: 12px 0 0 0;
+        min-height: calc(100vh - 200px);
+        max-height: calc(100vh - 200px);
+      }
+      
+      .downloads-section,
+      .bookmarks-section,
+      .history-section {
+        height: calc(100vh - 200px);
+        padding: 12px 0 0 0;
+      }
+    }
+    
+    /* Touch device improvements */
+    .touch-device .music-btn,
+    .touch-device .filter-btn,
+    .touch-device .tab-close,
+    .touch-device .tabs-close,
+    .touch-device .remove-bookmark,
+    .touch-device .remove-history {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    .touch-device .tabs-stack,
+    .touch-device .downloads-section,
+    .touch-device .bookmarks-section,
+    .touch-device .history-section {
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    
+    /* Better focus states for accessibility */
+    .music-btn:focus,
+    .filter-btn:focus,
+    .tab-close:focus,
+    .tabs-close:focus,
+    .remove-bookmark:focus,
+    .remove-history:focus {
+      outline: 2px solid #29b6f6;
+      outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      .tabs-container {
+        border: 2px solid #000;
+        background: rgba(255,255,255,0.98);
+      }
+      
+      .tab-header {
+        border: 1px solid #000;
+        background: rgba(255,255,255,0.98);
+      }
+      
+      .music-player {
+        border: 1px solid #000;
+        background: rgba(255,255,255,0.98);
+      }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .tabs-container,
+      .tab-card,
+      .music-btn,
+      .filter-btn,
+      .tab-close {
+        transition: none;
+      }
+      
+      .tabs-stack {
+        scroll-behavior: auto;
+      }
+    }
+    
+    /* Prevent zoom on input focus for iOS */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      input[type="text"],
+      input[type="search"] {
+        font-size: 16px;
+      }
+    }
+    
+    /* Additional component styles */
+    .tab-card .tab-close {
+      pointer-events: auto !important;
+    }
+    
+    .downloads-section {
+      display: none;
+      padding: 38px 0 0 0;
+      height: 600px;
+      overflow-y: auto;
+    }
+    
+    .downloads-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 0 24px 32px 24px;
+    }
+    
+    .download-item {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(30,60,120,0.07);
+      padding: 14px 16px;
+      gap: 16px;
+      border: 1.5px solid #f2f3f7;
+      transition: box-shadow 0.18s, border-color 0.18s;
+    }
+    
+    .download-item:hover {
+      box-shadow: 0 6px 24px rgba(255,179,71,0.13), 0 2px 12px rgba(30,60,120,0.10);
+      border-color: #ffb347;
+    }
+    
+    .download-icon img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #f5f5f5;
+      box-shadow: 0 1px 4px rgba(30,60,120,0.06);
+      padding: 4px;
+    }
+    
+    .download-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .download-name {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #222;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+    
+    .download-meta {
+      font-size: 0.95rem;
+      color: #888;
+      font-weight: 400;
+    }
+    
+    .show-tabs-btn {
+      background: none !important;
+      border: none !important;
+      color: #222 !important;
+      font-size: 1rem !important;
+      font-weight: 500 !important;
+      text-decoration: underline;
+      cursor: pointer;
+      margin: 18px 0 18px 24px !important;
+      padding: 0 !important;
+      display: block;
+      text-align: left;
+      width: auto;
+      box-shadow: none !important;
+    }
+    
+    .show-tabs-btn:hover {
+      color: #ffb347 !important;
+      text-decoration: underline;
+    }
+    
+    .bookmarks-section, .history-section {
+      padding: 38px 0 0 0;
+      height: 100%;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .bookmarks-list, .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 0 24px 32px 24px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    
+    .bookmark-item, .history-item {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(30,60,120,0.07);
+      padding: 14px 16px;
+      gap: 16px;
+      border: 1.5px solid #f2f3f7;
+      transition: box-shadow 0.18s, border-color 0.18s;
+      justify-content: space-between;
+    }
+    
+    .bookmark-item:hover, .history-item:hover {
+      box-shadow: 0 6px 24px rgba(255,179,71,0.13), 0 2px 12px rgba(30,60,120,0.10);
+      border-color: #ffb347;
+    }
+    
+    .bookmark-item a, .history-item a {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #222;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 auto;
+    }
+    
+    .bookmark-item a::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background: url('https://cdn-icons-png.flaticon.com/512/3917/3917032.png') no-repeat center/cover;
+      margin-right: 8px;
+      border-radius: 6px;
+      background-color: #f5f5f5;
+    }
+    
+    .history-item a::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background: url('https://cdn-icons-png.flaticon.com/512/3917/3917032.png') no-repeat center/cover;
+      margin-right: 8px;
+      border-radius: 6px;
+      background-color: #f5f5f5;
+    }
+    
+    .history-meta {
+      font-size: 0.98rem;
+      color: #888;
+      font-weight: 400;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+    
+    .remove-bookmark, .remove-history {
+      background: none;
+      border: none;
+      color: #bbb;
+      font-size: 1.2rem;
+      margin-left: 12px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    
+    .remove-bookmark:hover, .remove-history:hover {
+      background: #ffe9b3;
+      color: #ff5e62;
+    }
+    
+    .clear-history-btn {
+      background: #eee;
+      color: #888;
+      border: none;
+      border-radius: 18px;
+      padding: 8px 18px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: background 0.15s, color 0.15s;
+    }
+    
+    .clear-history-btn:hover {
+      background: #ffb347;
+      color: #fff;
+    }
+    
+    .music-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #ffe9b3;
+      border-radius: 4px;
+      margin: 12px 0 4px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .music-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffb347 0%, #ff9966 100%);
+      border-radius: 4px;
+      transition: width 0.2s linear;
+    }
+    
+    .music-time {
+      font-size: 0.98rem;
+      color: #888;
+      font-weight: 400;
+      margin-top: 2px;
+      margin-bottom: 0;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .tab-header .external-btn, .tab-header .open-tab-btn {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      min-width: unset !important;
+      width: 32px !important;
+      height: 32px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tab-header .external-btn svg, .tab-header .open-tab-btn svg {
+      width: 28px !important;
+      height: 28px !important;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <button class="open-tabs-panel-btn" style="display:none;" title="Open Tabs"><img src="images/verticle-tabs/new-tab.png" alt="Open Tabs" style="width:28px; height:28px; display:block; margin:auto;" /></button>
+  <div class="tabs-container">
+    <div class="tabs-header">
+      <span class="tabs-title">34 Tabs</span>
+      <button class="tabs-close">&times;</button>
+    </div>
+    <div class="music-player">
+      <img class="album-art" src="https://upload.wikimedia.org/wikipedia/en/c/c4/Love_Never_Felt_So_Good_cover.png" alt="Album Art" />
+      <div class="music-info">
+        <div class="song-title">Love Never Felt So Good</div>
+        <div class="artist">Michael Jackson</div>
+        <div class="music-controls">
+          <button class="music-btn" title="Previous">
+            <img src="images/verticle-tabs/arrow.png" alt="Previous" style="width:24px; height:24px;" />
+          </button>
+          <button class="music-btn pause-play-btn" title="Play">
+            <img class="pause-play-icon" src="images/verticle-tabs/play-on.png" alt="Play" style="width:24px; height:24px;" />
+          </button>
+          <button class="music-btn" title="Next">
+            <img src="images/verticle-tabs/next-button.png" alt="Next" style="width:24px; height:24px;" />
+          </button>
+          <button class="music-btn" title="Play">
+            <img src="images/verticle-tabs/play.png" alt="Play" style="width:24px; height:24px;" />
+          </button>
+        </div>
+        <div class="music-progress-bar">
+          <div class="music-progress"></div>
+        </div>
+        <div class="music-time"><span class="current-time">0:00</span> / <span class="total-time">0:00</span></div>
+        <audio id="audio-player" src="audio/jackson.mp3" preload="auto" autoplay></audio>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="tabs-filters">
+      <button class="filter-btn">Downloads</button>
+      <button class="filter-btn">Bookmarks</button>
+      <button class="filter-btn">History</button>
+    </div>
+    <div class="tabs-stack">
+      <div class="tab-card tab-fade1">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.ebay.com/favicon.ico" alt="eBay"></span>
+          <span class="tab-title">eBay - Deals</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade2">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.amazon.com/favicon.ico" alt="Amazon"></span>
+          <span class="tab-title">Amazon.com: Online Shopping</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade3">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.facebook.com/favicon.ico" alt="Facebook"></span>
+          <span class="tab-title">Facebook</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade4">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://x.com/favicon.ico" alt="X"></span>
+          <span class="tab-title">X (Twitter)</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade5">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.reddit.com/favicon.ico" alt="Reddit"></span>
+          <span class="tab-title">Reddit: Dive into anything</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade6">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.youtube.com/favicon.ico" alt="YouTube"></span>
+          <span class="tab-title">YouTube</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-fade7">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.instagram.com/favicon.ico" alt="Instagram"></span>
+          <span class="tab-title">Instagram</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card tab-main">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.google.com/favicon.ico" alt="Google"></span>
+          <span class="tab-title">Google</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <!-- Additional tabs for scrolling test -->
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn"></span>
+          <span class="tab-title">LinkedIn</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.netflix.com/favicon.ico" alt="Netflix"></span>
+          <span class="tab-title">Netflix</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.apple.com/favicon.ico" alt="Apple"></span>
+          <span class="tab-title">Apple</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.microsoft.com/favicon.ico" alt="Microsoft"></span>
+          <span class="tab-title">Microsoft</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.tesla.com/favicon.ico" alt="Tesla"></span>
+          <span class="tab-title">Tesla</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.spotify.com/favicon.ico" alt="Spotify"></span>
+          <span class="tab-title">Spotify</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.paypal.com/favicon.ico" alt="PayPal"></span>
+          <span class="tab-title">PayPal</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.nytimes.com/favicon.ico" alt="NYTimes"></span>
+          <span class="tab-title">The New York Times</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.wikipedia.org/favicon.ico" alt="Wikipedia"></span>
+          <span class="tab-title">Wikipedia</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.cnn.com/favicon.ico" alt="CNN"></span>
+          <span class="tab-title">CNN - Breaking News</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-header">
+          <span class="tab-favicon"><img src="https://www.bbc.com/favicon.ico" alt="BBC"></span>
+          <span class="tab-title">BBC News</span>
+          <button class="tab-close" aria-label="Close Tab">
+            <svg width="13" height="13" viewBox="0 0 22 22" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="6" x2="6" y2="16"/></svg>
+          </button>
+        </div>
+        <div class="tab-content"></div>
+      </div>
+    </div>
+    <div class="downloads-section" style="display:none;">
+      <button class="show-tabs-btn">Show Tabs</button>
+      <div class="downloads-list">
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337940.png" alt="JPG" /></div>
+          <div class="download-info">
+            <div class="download-name">Vacation-Photo-2024.jpg</div>
+            <div class="download-meta">2.3 MB · Image · Jun 10, 2024, 14:32</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PNG" /></div>
+          <div class="download-info">
+            <div class="download-name">Screenshot_2024-06-09.png</div>
+            <div class="download-meta">1.1 MB · Image · Jun 9, 2024, 09:12</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337947.png" alt="MP3" /></div>
+          <div class="download-info">
+            <div class="download-name">Song-Remix.mp3</div>
+            <div class="download-meta">7.8 MB · Music · Jun 8, 2024, 18:44</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337948.png" alt="MP4" /></div>
+          <div class="download-info">
+            <div class="download-name">Family-Video.mp4</div>
+            <div class="download-meta">1.1 GB · Video · Jun 7, 2024, 21:10</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337949.png" alt="PDF" /></div>
+          <div class="download-info">
+            <div class="download-name">Invoice-2024.pdf</div>
+            <div class="download-meta">320 KB · Document · Jun 7, 2024, 10:05</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337950.png" alt="DOCX" /></div>
+          <div class="download-info">
+            <div class="download-name">Resume.docx</div>
+            <div class="download-meta">88 KB · Document · Jun 6, 2024, 16:22</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="ZIP" /></div>
+          <div class="download-info">
+            <div class="download-name">Project-Files.zip</div>
+            <div class="download-meta">54 MB · Archive · Jun 6, 2024, 13:11</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="ZIP" /></div>
+          <div class="download-info">
+            <div class="download-name">Photos-Backup.zip</div>
+            <div class="download-meta">2.2 GB · Archive · Jun 5, 2024, 20:55</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="FOLDER" /></div>
+          <div class="download-info">
+            <div class="download-name">Music Collection</div>
+            <div class="download-meta">Folder · Jun 5, 2024, 19:00</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337949.png" alt="PDF" /></div>
+          <div class="download-info">
+            <div class="download-name">Research-Paper.pdf</div>
+            <div class="download-meta">2.1 MB · Document · Jun 4, 2024, 11:18</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337950.png" alt="DOCX" /></div>
+          <div class="download-info">
+            <div class="download-name">Meeting-Notes.docx</div>
+            <div class="download-meta">45 KB · Document · Jun 3, 2024, 15:30</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337947.png" alt="MP3" /></div>
+          <div class="download-info">
+            <div class="download-name">Podcast-Episode.mp3</div>
+            <div class="download-meta">32 MB · Music · Jun 2, 2024, 08:20</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337948.png" alt="MP4" /></div>
+          <div class="download-info">
+            <div class="download-name">Tutorial-Video.mp4</div>
+            <div class="download-meta">540 MB · Video · Jun 1, 2024, 17:45</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PNG" /></div>
+          <div class="download-info">
+            <div class="download-name">Logo-Design.png</div>
+            <div class="download-meta">780 KB · Image · May 31, 2024, 12:10</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337940.png" alt="JPG" /></div>
+          <div class="download-info">
+            <div class="download-name">Team-Photo.jpg</div>
+            <div class="download-meta">1.8 MB · Image · May 30, 2024, 09:55</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="FOLDER" /></div>
+          <div class="download-info">
+            <div class="download-name">Work Documents</div>
+            <div class="download-meta">Folder · May 29, 2024, 14:00</div>
+          </div>
+        </div>
+        <div class="download-item">
+          <div class="download-icon"><img src="https://cdn-icons-png.flaticon.com/512/337/337949.png" alt="PDF" /></div>
+          <div class="download-info">
+            <div class="download-name">E-Book.pdf</div>
+            <div class="download-meta">4.2 MB · Document · May 28, 2024, 20:10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bookmarks-section" style="display:none;">
+      <button class="show-tabs-btn">Show Tabs</button>
+      <div class="bookmarks-list">
+        <div class="bookmark-item"><a href="#">Google</a><button class="remove-bookmark" title="Remove Bookmark">&times;</button></div>
+        <div class="bookmark-item"><a href="#">YouTube</a><button class="remove-bookmark" title="Remove Bookmark">&times;</button></div>
+        <div class="bookmark-item"><a href="#">Wikipedia</a><button class="remove-bookmark" title="Remove Bookmark">&times;</button></div>
+        <div class="bookmark-item"><a href="#">Reddit</a><button class="remove-bookmark" title="Remove Bookmark">&times;</button></div>
+        <div class="bookmark-item"><a href="#">Stack Overflow</a><button class="remove-bookmark" title="Remove Bookmark">&times;</button></div>
+      </div>
+    </div>
+    <div class="history-section" style="display:none;">
+      <button class="show-tabs-btn">Show Tabs</button>
+      <button class="clear-history-btn" style="margin:0 0 18px 24px;display:block;padding:8px 18px;border-radius:18px;border:none;background:#eee;color:#888;font-weight:500;font-size:0.98rem;cursor:pointer;">Clear All History</button>
+      <div class="history-list">
+        <div class="history-item"><a href="#">Google</a> <span class="history-meta">2024-06-27 10:12</span><button class="remove-history" title="Remove History">&times;</button></div>
+        <div class="history-item"><a href="#">YouTube</a> <span class="history-meta">2024-06-27 09:55</span><button class="remove-history" title="Remove History">&times;</button></div>
+        <div class="history-item"><a href="#">Reddit</a> <span class="history-meta">2024-06-26 22:18</span><button class="remove-history" title="Remove History">&times;</button></div>
+        <div class="history-item"><a href="#">Wikipedia</a> <span class="history-meta">2024-06-26 21:44</span><button class="remove-history" title="Remove History">&times;</button></div>
+        <div class="history-item"><a href="#">Stack Overflow</a> <span class="history-meta">2024-06-26 20:30</span><button class="remove-history" title="Remove History">&times;</button></div>
+      </div>
+    </div>
+    <div class="tabs-gradient-bottom"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const downloadsBtn = document.querySelector('.tabs-filters .filter-btn:nth-child(1)');
+      const bookmarksBtn = document.querySelector('.tabs-filters .filter-btn:nth-child(2)');
+      const historyBtn = document.querySelector('.tabs-filters .filter-btn:nth-child(3)');
+      const downloadsSection = document.querySelector('.downloads-section');
+      const bookmarksSection = document.querySelector('.bookmarks-section');
+      const historySection = document.querySelector('.history-section');
+      const tabsStack = document.querySelector('.tabs-stack');
+      const showTabsBtns = document.querySelectorAll('.show-tabs-btn');
+      downloadsBtn.addEventListener('click', function() {
+        downloadsSection.style.display = 'block';
+        bookmarksSection.style.display = 'none';
+        historySection.style.display = 'none';
+        tabsStack.style.display = 'none';
+      });
+      bookmarksBtn.addEventListener('click', function() {
+        bookmarksSection.style.display = 'block';
+        downloadsSection.style.display = 'none';
+        historySection.style.display = 'none';
+        tabsStack.style.display = 'none';
+      });
+      historyBtn.addEventListener('click', function() {
+        historySection.style.display = 'block';
+        downloadsSection.style.display = 'none';
+        bookmarksSection.style.display = 'none';
+        tabsStack.style.display = 'none';
+      });
+      showTabsBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          downloadsSection.style.display = 'none';
+          bookmarksSection.style.display = 'none';
+          historySection.style.display = 'none';
+          tabsStack.style.display = 'block';
+          if (typeof updateTabs === 'function') updateTabs();
+        });
+      });
+      const stack = document.querySelector('.tabs-stack');
+      function updateTabs() {
+        const allTabs = Array.from(stack.querySelectorAll('.tab-card'));
+        // Update tab count
+        const tabsTitle = document.querySelector('.tabs-title');
+        if (tabsTitle) {
+          tabsTitle.textContent = allTabs.length + (allTabs.length === 1 ? ' Tab' : ' Tabs');
+        }
+        allTabs.forEach(tab => {
+          tab.classList.remove('tab-fade1','tab-fade2','tab-fade3','tab-fade4','tab-fade5','tab-fade6','tab-fade7','tab-fade8','tab-fade9','tab-main');
+        });
+        // Find the first visible tab index in the scroll area
+        let firstVisible = 0;
+        for (let i = 0; i < allTabs.length; i++) {
+          const rect = allTabs[i].getBoundingClientRect();
+          const stackRect = stack.getBoundingClientRect();
+          if (rect.bottom > stackRect.top + 10) { // 10px tolerance
+            firstVisible = i;
+            break;
+          }
+        }
+        // Always assign tab-main to the 9th visible tab (firstVisible+8), never to the top
+        for (let i = 0; i < allTabs.length; i++) {
+          const rel = i - firstVisible;
+          if (rel >= 0 && rel < 9) {
+            allTabs[i].classList.add('tab-fade' + (rel + 1));
+          } else if (rel === 9) {
+            allTabs[i].classList.add('tab-main');
+          }
+        }
+      }
+      if (stack) {
+        stack.addEventListener('scroll', function() {
+          updateTabs();
+        });
+        window.addEventListener('resize', updateTabs);
+        updateTabs();
+      }
+      const tabsPanel = document.querySelector('.tabs-container');
+      const closeTabsBtn = document.querySelector('.tabs-close');
+      const openTabsBtn = document.querySelector('.open-tabs-panel-btn');
+      closeTabsBtn.addEventListener('click', function() {
+        tabsPanel.classList.add('closed');
+        setTimeout(() => { openTabsBtn.style.display = 'flex'; }, 400);
+      });
+      openTabsBtn.addEventListener('click', function() {
+        tabsPanel.classList.remove('closed');
+        openTabsBtn.style.display = 'none';
+      });
+      // Move close tab event inside DOMContentLoaded
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.tab-close')) {
+          const tab = e.target.closest('.tab-card');
+          if (tab) {
+            tab.remove();
+            updateTabs();
+          }
+        }
+      });
+      // Remove bookmark
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-bookmark')) {
+          const item = e.target.closest('.bookmark-item');
+          if (item) item.remove();
+        }
+        if (e.target.classList.contains('remove-history')) {
+          const item = e.target.closest('.history-item');
+          if (item) item.remove();
+        }
+        if (e.target.classList.contains('clear-history-btn')) {
+          const list = document.querySelector('.history-list');
+          if (list) list.innerHTML = '';
+        }
+      });
+      // Music player play/pause toggle and progress
+      const audio = document.getElementById('audio-player');
+      const pausePlayBtn = document.querySelector('.pause-play-btn');
+      const pausePlayIcon = document.querySelector('.pause-play-icon');
+      const progressBar = document.querySelector('.music-progress');
+      const currentTimeEl = document.querySelector('.current-time');
+      const totalTimeEl = document.querySelector('.total-time');
+      const nextBtn = document.querySelector('.music-btn[title="Next"]');
+      const prevBtn = document.querySelector('.music-btn[title="Previous"]');
+      let isPaused = true;
+      function formatTime(sec) {
+        sec = Math.floor(sec);
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        return m + ':' + (s < 10 ? '0' : '') + s;
+      }
+      if (audio) {
+        audio.addEventListener('loadedmetadata', function() {
+          totalTimeEl.textContent = formatTime(audio.duration);
+        });
+        audio.addEventListener('timeupdate', function() {
+          currentTimeEl.textContent = formatTime(audio.currentTime);
+          if (audio.duration) {
+            progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          }
+        });
+        audio.addEventListener('ended', function() {
+          pausePlayIcon.src = 'images/verticle-tabs/play-on.png';
+          pausePlayIcon.alt = 'Play';
+          isPaused = true;
+        });
+      }
+      if (pausePlayBtn && pausePlayIcon && audio) {
+        pausePlayBtn.addEventListener('click', function() {
+          if (isPaused) {
+            pausePlayIcon.src = 'images/verticle-tabs/pause-button.png';
+            pausePlayIcon.alt = 'Pause';
+            audio.play();
+          } else {
+            audio.pause();
+            pausePlayIcon.src = 'images/verticle-tabs/play-on.png';
+            pausePlayIcon.alt = 'Play';
+          }
+          isPaused = !isPaused;
+        });
+      }
+      // Fast forward 10 seconds on next button click
+      if (nextBtn && audio) {
+        nextBtn.addEventListener('click', function() {
+          if (audio.duration) {
+            audio.currentTime = Math.min(audio.currentTime + 10, audio.duration);
+          }
+        });
+      }
+      // Rewind 10 seconds on previous button click
+      if (prevBtn && audio) {
+        prevBtn.addEventListener('click', function() {
+          audio.currentTime = Math.max(audio.currentTime - 10, 0);
+          // Immediately update UI after rewinding
+          if (typeof currentTimeEl !== 'undefined' && typeof progressBar !== 'undefined' && audio.duration) {
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          }
+        });
+      }
+      
+      // Mobile responsive functionality
+      function updateMobileLayout() {
+        const isMobile = window.innerWidth <= 768;
+        const tabsPanel = document.querySelector('.tabs-container');
+        const openTabsBtn = document.querySelector('.open-tabs-panel-btn');
+        
+        if (isMobile) {
+          // Show open button on mobile
+          if (openTabsBtn) {
+            openTabsBtn.style.display = 'flex';
+          }
+          
+          // Hide tabs panel by default on mobile
+          if (tabsPanel && !tabsPanel.classList.contains('closed')) {
+            tabsPanel.classList.add('closed');
+          }
+          
+          // Add touch device class
+          document.body.classList.add('touch-device');
+          
+          // Improve touch targets
+          const touchTargets = document.querySelectorAll('.music-btn, .filter-btn, .tab-close, .tabs-close, .remove-bookmark, .remove-history');
+          touchTargets.forEach(target => {
+            target.style.minHeight = '44px';
+            target.style.minWidth = '44px';
+          });
+          
+          // Add swipe gesture support for closing panel
+          let startX = 0;
+          let startY = 0;
+          
+          tabsPanel.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+          });
+          
+          tabsPanel.addEventListener('touchmove', function(e) {
+            if (!startX || !startY) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = startX - currentX;
+            const diffY = startY - currentY;
+            
+            // Check if it's a horizontal swipe (more horizontal than vertical)
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+              // Left swipe to close
+              if (diffX > 0) {
+                tabsPanel.classList.add('closed');
+                setTimeout(() => { 
+                  if (openTabsBtn) openTabsBtn.style.display = 'flex'; 
+                }, 400);
+              }
+            }
+          });
+          
+          tabsPanel.addEventListener('touchend', function() {
+            startX = 0;
+            startY = 0;
+          });
+          
+        } else {
+          // Desktop behavior
+          if (openTabsBtn) {
+            openTabsBtn.style.display = 'none';
+          }
+          
+          if (tabsPanel && tabsPanel.classList.contains('closed')) {
+            tabsPanel.classList.remove('closed');
+          }
+          
+          // Remove touch device class
+          document.body.classList.remove('touch-device');
+          
+          // Reset touch targets
+          const touchTargets = document.querySelectorAll('.music-btn, .filter-btn, .tab-close, .tabs-close, .remove-bookmark, .remove-history');
+          touchTargets.forEach(target => {
+            target.style.minHeight = '';
+            target.style.minWidth = '';
+          });
+        }
+      }
+      
+      // Initialize mobile layout
+      updateMobileLayout();
+      
+      // Update on window resize
+      window.addEventListener('resize', updateMobileLayout);
+      
+      // Handle orientation change
+      window.addEventListener('orientationchange', function() {
+        setTimeout(updateMobileLayout, 100);
+      });
+      
+      // Prevent zoom on double tap for iOS
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+      
+      // Add haptic feedback for mobile (if supported)
+      function hapticFeedback() {
+        if ('vibrate' in navigator) {
+          navigator.vibrate(10);
+        }
+      }
+      
+      // Add haptic feedback to important interactions
+      const hapticElements = document.querySelectorAll('.music-btn, .filter-btn, .tab-close, .tabs-close');
+      hapticElements.forEach(element => {
+        element.addEventListener('click', hapticFeedback);
+      });
+      
+      // Improve scroll performance on mobile
+      if ('ontouchstart' in window) {
+        const scrollableElements = document.querySelectorAll('.tabs-stack, .downloads-section, .bookmarks-section, .history-section');
+        scrollableElements.forEach(element => {
+          element.style.webkitOverflowScrolling = 'touch';
+          element.style.scrollBehavior = 'smooth';
+        });
+      }
+    });
+  </script>
+</body>
+</html> 
