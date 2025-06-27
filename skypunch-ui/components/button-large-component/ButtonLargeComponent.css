@@ -1,0 +1,68 @@
+.button-large-list {
+  background: #f7f7f7;
+  min-height: 100vh;
+  padding: 20px 0 0 0;
+  font-family: 'Satoshi', Arial, sans-serif;
+  width: 320px;
+  margin: 0 auto;
+}
+.campaign-row, .see-all-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-left: 0;
+}
+.campaign-row-white, .see-all-row-white {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  padding: 10px 0 10px 0;
+  margin-right: 0;
+}
+.campaign-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #888, #e0e0e0);
+  margin-right: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.campaign-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.campaign-title {
+  font-size: 15px;
+  color: #444;
+  font-weight: 300;
+  margin-bottom: 1px;
+  font-family: 'Satoshi', Arial, sans-serif;
+}
+.campaign-subtitle {
+  font-size: 11px;
+  color: #b0b0b0;
+  font-weight: 300;
+  font-family: 'Satoshi', Arial, sans-serif;
+}
+.see-all-icon {
+  margin-right: 12px;
+  opacity: 0.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.see-all-row-white .see-all-icon {
+  opacity: 0.5;
+}
+.see-all-text {
+  font-size: 15px;
+  color: #444;
+  font-weight: 300;
+  text-decoration: none;
+  font-family: 'Satoshi', Arial, sans-serif;
+} 
